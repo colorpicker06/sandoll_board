@@ -13,7 +13,7 @@ public class UserDAO {
 		public UserDAO() {
 		
 		try {
-			String dbURL = "jdbc:mysql://localhost:3306/sandoll_board2";
+			String dbURL = "jdbc:mysql://localhost:3306/sandoll_board";
 			String dbID = "root";
 			String dbPassword = "1234";
 			Class.forName("com.mysql.jdbc.Driver");
@@ -32,7 +32,7 @@ public class UserDAO {
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				if(rs.getString(1).equals(password))
-					return 1; // 로그인 성
+					return 1; // 로그인 성공
 				else
 					return 0; // 비밀번호 틀림 
 			}
@@ -60,6 +60,26 @@ public class UserDAO {
 		}
 		return -1;
 	}
+	
+	//개인정보 수정
+		public int info_change(User user) {
+			
+			String sql = "update user set id = #{id}, password=#{password}, nickname=#{nickname} where pk=#{pk}";
+			
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1,user.getId());
+				pstmt.setString(2,user.getPassword());
+				pstmt.setString(3,user.getName());
+				pstmt.setString(4,user.getNickname());
+				
+				return pstmt.executeUpdate();
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			return -1;
+		}
 	
 	//아이디 중복체크 
 	public int id_chk(String id) {

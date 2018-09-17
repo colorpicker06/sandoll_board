@@ -17,6 +17,7 @@
 	UserDAO userDAO = new UserDAO();
 	int result = userDAO.login(user.getId(),user.getPassword());
 	if(result == 1){
+		session.setAttribute("id", user.getId()); 
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("location.href = 'mypage.jsp'");

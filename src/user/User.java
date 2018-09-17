@@ -2,11 +2,13 @@ package user;
 
 public class User {
 	
+	private int pk;
 	private String id;
 	private String password;
 	private String name;
 	private String nickname;
-	private String user_state;
+	private String reg_date;
+	private int user_state;
 	
 	public String getId() {
 		return id;
@@ -32,11 +34,23 @@ public class User {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-	public String getUser_state() {
+	public int getUser_state() {
 		return user_state;
 	}
-	public void setUser_state(String user_state) {
+	public void setUser_state(int user_state) {
 		this.user_state = user_state;
+	}
+	public int getPk() {
+		return pk;
+	}
+	public void setPk(int pk) {
+		this.pk = pk;
+	}
+	public String getReg_date() {
+		return reg_date;
+	}
+	public void setReg_date(String reg_date) {
+		this.reg_date = reg_date;
 	}
 	
 }
