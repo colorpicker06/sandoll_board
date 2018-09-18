@@ -48,7 +48,7 @@ li a:hover:not(.active) {
   <%
   }
   
-  if(session.getAttribute("id").equals("admin")){
+  else if(session.getAttribute("id").equals("admin")){
 	  %>
 	  <li style="float:right"><a class="active" href="admin_member.jsp">회원관리</a></li>
   <%

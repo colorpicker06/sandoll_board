@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import board.Board;;
+import board.Board;
+import sun.misc.Perf.GetPerfAction;
+import user.User;;
 
 public class BoardDAO {
 	private Connection conn;
@@ -55,5 +57,39 @@ public class BoardDAO {
 		}
 	}*/
 	
-	
+			// 수정
+			public int board_change(Board board) {
+				
+				String sql = "update board set title = ?, content=? where pk=?";
+				
+				try {
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1,board.getTitle());
+					pstmt.setString(2,board.getContent());
+					pstmt.setInt(3,board.getPk());
+					
+					return pstmt.executeUpdate();
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				return -1;
+			}
+			
+			//삭제
+			public int board_delete(Board board) {
+				
+				String sql = "update board set board_delete = 1 where pk=?";
+				
+				try {
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, board.getPk());
+					
+					return pstmt.executeUpdate();
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				return -1;
+			}
 }

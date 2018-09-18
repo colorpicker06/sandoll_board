@@ -1,3 +1,7 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ page import = "user.UserDAO" %>
@@ -17,14 +21,43 @@
 </head>
 <body>
 <%@ include file="../menu.jsp" %>
+<%
+	Connection conn = null;
+	Statement stmt = null;
+	String id = (String)session.getAttribute("id");
 
+
+	try{
+	    Class.forName("com.mysql.jdbc.Driver");
+	    String dbURL = "jdbc:mysql://localhost:3306/sandoll_board";
+		String dbID = "root";
+		String dbPassword = "1234";
+		Class.forName("com.mysql.jdbc.Driver");
+		conn = DriverManager.getConnection(dbURL,dbID,dbPassword);
+	    stmt = conn.createStatement();
+	    
+	    String sql = "select * from user where id ="+"'"+id+"'";
+        ResultSet rs = stmt.executeQuery(sql);
+	
+%>
 <form method="post" action="info_change_ok.jsp">
-<input type="text" name="id" id = "id" placeholder="아이디"><br>
-<input type="text" name="id" id = "id" placeholder="비밀번호"><br>
-<input type="text" name="id" id = "id" placeholder="이름" disabled><br>
-<input type="text" name="id" id = "id" placeholder="닉네임"><br>
-<input type="text" name="id" id = "id" placeholder="가입일" disabled><br>
+<% while(rs.next()){ %>
+<input type="hidden" name="pk" id = "pk" value="<%=rs.getString("pk")%>"></input><br>
+아이디 : <input type="text" name="id" id = "id" value="<%=rs.getString("id")%>"></input><br>
+비밀번호 : <input type="text" name="password" id = "password" value="<%=rs.getString("password")%>"></input><br>
+이름 : <input type="text" name="name" id = "name" value="<%=rs.getString("name")%>" disabled></input><br>
+닉네임 : <input type="text" name="nickname" id = "nickname" value="<%=rs.getString("nickname")%>"></input><br>
+가입일 : <input type="text" name="reg_date" id = "reg_date" value="<%=rs.getString("reg_date")%>" disabled></input><br>
+<% } %>
+<input type="submit" value="수정하기">
 </form>
-
+<%
+      conn.close();
+    }catch(Exception e){
+        out.println("데이터베이스에 문제가 있습니다.");
+        out.println(e.getMessage());
+        e.getStackTrace();
+    }
+%> 
 </body>
 </html>

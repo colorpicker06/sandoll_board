@@ -40,10 +40,10 @@ public class UserDAO {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return -2; //db연결실패 
+		return -2; //db연결실패
 	}
 	
-	//회원가입 
+	//회원가입
 	public int signin(User user) {
 		String sql = "insert into user values (null,?,?,?,?,now(),0)";
 		try {
@@ -64,14 +64,14 @@ public class UserDAO {
 	//개인정보 수정
 		public int info_change(User user) {
 			
-			String sql = "update user set id = #{id}, password=#{password}, nickname=#{nickname} where pk=#{pk}";
+			String sql = "update user set id = ?, password=?, nickname=? where pk=?";
 			
 			try {
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1,user.getId());
 				pstmt.setString(2,user.getPassword());
-				pstmt.setString(3,user.getName());
-				pstmt.setString(4,user.getNickname());
+				pstmt.setString(3,user.getNickname());
+				pstmt.setInt(4,user.getPk());
 				
 				return pstmt.executeUpdate();
 				

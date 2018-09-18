@@ -50,9 +50,11 @@
             count = countrs.getInt(1);
         }
         
-        ResultSet rs = stmt.executeQuery("select * from board order by pk desc;");
+        String sql = "select * from board order by pk desc;";
+        ResultSet rs = stmt.executeQuery(sql);
 
 %>
+<br><br>
 글 목록 <br><br><br><br>
 <table>
 <tr>
@@ -65,17 +67,24 @@
 <tr>
 <%
 while(rs.next()){
-	out.print("<tr>");
-	out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>"+ count + "</td>");
-	out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("title") + "</td>");
-	out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("writer") + "</td>");
-	out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("reg_date") + "</td>");
-	out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("board_like") + "</td>");
 	
-	count=count-1;
+	int board_delete = Integer.parseInt(rs.getString("board_delete"));
+	
+	if(board_delete!=1){
+		out.print("<tr>");
+		out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>"+ count + "</td>");
+		out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("title") + "</td>");
+		out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("writer") + "</td>");
+		out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("reg_date") + "</td>");
+		out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("board_like") + "</td>");
+		out.print("</tr>");
+		
+		count=count-1;
+	}
+	
+	
 }
 %>
-</tr>
 </table>
 
 

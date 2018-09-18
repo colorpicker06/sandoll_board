@@ -51,15 +51,23 @@
 <td> 이름 </td>
 <td> 닉네임 </td>
 <td> 가입일 </td>
-<td> 현재상태 </td>
+<td colspan="2"> 현재상태 </td>
 </tr>
-<tr>
+
 <%
 while(rs.next()){
-	
+	out.print("<tr>");
+	out.print("<td>"+ rs.getString("pk") + "</td>");
+	out.print("<td>"+ rs.getString("id") + "</td>");
+	out.print("<td>"+ rs.getString("password") + "</td>");
+	out.print("<td>"+ rs.getString("name") + "</td>");
+	out.print("<td>"+ rs.getString("nickname") + "</td>");
+	out.print("<td>"+ rs.getString("reg_date") + "</td>");
+	out.print("<td>"+ rs.getString("user_state") + "</td>");
+	out.print("<td><select> <option value='일반계정'>일반계정</option> <option value='일반계정'>탈퇴계정</option> <option value='일반계정'>휴면계정</option></select></td>");
+	out.print("</tr>");
 }
 %>
-</tr>
 </table>
 
 <%
