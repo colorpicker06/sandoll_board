@@ -47,7 +47,7 @@
 비밀번호 : <input type="text" name="password" id = "password" value="<%=rs.getString("password")%>"></input><br>
 이름 : <input type="text" name="name" id = "name" value="<%=rs.getString("name")%>" disabled></input><br>
 닉네임 : <input type="text" name="nickname" id = "nickname" value="<%=rs.getString("nickname")%>"></input><br>
-가입일 : <input type="text" name="reg_date" id = "reg_date" value="<%=rs.getString("reg_date")%>" disabled></input><br>
+가입일 : <input type="text" value="<%=rs.getString("reg_date")%>" disabled></input><br>
 <% } %>
 <input type="submit" value="수정하기">
 </form>

@@ -92,4 +92,26 @@ public class BoardDAO {
 				}
 				return -1;
 			}
+			
+			//관리자 게시물 변경
+			public int board_state(Board board) {
+				
+				String sql = "update board set title = ?, board_like =?, reg_date = ?, writer =?, board_delete =? where pk=?";
+				
+				try {
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, board.getTitle());
+					pstmt.setInt(2, board.getBoard_like());
+					pstmt.setString(3, board.getReg_date());
+					pstmt.setString(4, board.getWriter());
+					pstmt.setInt(5, board.getBoard_delete());
+					pstmt.setInt(6, board.getPk());
+					
+					return pstmt.executeUpdate();
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				return -1;
+			}
 }

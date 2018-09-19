@@ -51,22 +51,31 @@
 <td> 이름 </td>
 <td> 닉네임 </td>
 <td> 가입일 </td>
-<td colspan="2"> 현재상태 </td>
+<td> 현재상태 </td>
 </tr>
 
 <%
-while(rs.next()){
-	out.print("<tr>");
-	out.print("<td>"+ rs.getString("pk") + "</td>");
-	out.print("<td>"+ rs.getString("id") + "</td>");
-	out.print("<td>"+ rs.getString("password") + "</td>");
-	out.print("<td>"+ rs.getString("name") + "</td>");
-	out.print("<td>"+ rs.getString("nickname") + "</td>");
-	out.print("<td>"+ rs.getString("reg_date") + "</td>");
-	out.print("<td>"+ rs.getString("user_state") + "</td>");
-	out.print("<td><select> <option value='일반계정'>일반계정</option> <option value='일반계정'>탈퇴계정</option> <option value='일반계정'>휴면계정</option></select></td>");
-	out.print("</tr>");
-}
+while(rs.next()){ %>
+	<tr>
+	<form action='admin_member_info_change.jsp' method='post'>
+	<td><%=rs.getString("pk") %></td>
+	<td><input type="text" name="id" id = "id" value="<%=rs.getString("id")%>"></input></td>
+	<td><input type="text" name="password" id = "password" value="<%=rs.getString("password")%>"></input></td>
+	<td><input type="text" name="name" id = "name" value="<%=rs.getString("name")%>"></input></td>
+	<td><input type="text" name="nickname" id = "nickname" value="<%=rs.getString("nickname")%>"></input></td>
+	<td><input type="text" name="reg_date" id = "reg_date" value="<%=rs.getString("reg_date")%>"></input></td>
+	<td>
+	<input type="hidden" name="pk" id="pk" value="<%=rs.getString("pk") %>">	
+	<select name="user_state" id="user_state">
+		<option value=0 <% if(rs.getInt("user_state")==0){%>selected<% } %>>일반계정 </option>
+		<option value=1 <% if(rs.getInt("user_state")==1){%>selected<% } %>>탈퇴계정</option>
+		<option value=2 <% if(rs.getInt("user_state")==2){%>selected<% } %>>휴면계정</option>
+	</select>
+	<input type="submit" value="수정">	
+	</td>
+	</form>	
+	</tr>
+<%}
 %>
 </table>
 

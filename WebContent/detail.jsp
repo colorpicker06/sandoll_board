@@ -5,10 +5,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<title>글 상세보</title>
 </head>
 <body>
 <script>
@@ -22,6 +24,14 @@ function board_delete(pk){
 
 function board_list(){
 	location.href = "board_list.jsp";
+}
+
+function heart_click(){
+	alert("하");
+	//replace ('far fa-heart', 'fas fa-heart') 
+	//document.getElementById("heard").value = 'fas fa-heart';	
+	document.getElementById("heart").className = "fas fa-heart";
+	location.href = "heart_click.jsp";
 }
 
 </script>
@@ -82,7 +92,8 @@ function board_list(){
 		<h3>글쓴이 </h3><%= rs.getString("writer") %><br>
 		<h3>작성일 </h3><%= rs.getString("reg_date") %><br>
 		<h3>좋아요 수 </h3><%= rs.getString("board_like") %><br> 
-		<input type="button" value="글 목록으로 돌아가" onclick="board_list()">
+		<i class="far fa-heart" id="heart" name="heart" onclick="heart_click();"></i>
+		<input type="button" value="글 목록으로 돌아가기" onclick="board_list()">
 		
 	<%} //end else
  

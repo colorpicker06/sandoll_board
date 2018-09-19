@@ -56,6 +56,12 @@
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(dbURL,dbID,dbPassword);
 		    stmt = conn.createStatement();
+		    
+		    ResultSet countrs = stmt.executeQuery("select count(*) from board where writer ="+"'"+userid+"' and board_delete = 0"); 
+	        
+	        if(countrs.next()){
+	            count = countrs.getInt(1);
+	        }
 	        
 	        String sql = "select * from board where writer ="+"'"+userid+"'";
 	        ResultSet rs = stmt.executeQuery(sql);
@@ -76,6 +82,7 @@
 	while(rs.next()){
 		
 		int board_delete = Integer.parseInt(rs.getString("board_delete"));
+		int delete_board_num = 0;
 		
 		if(board_delete!=1){
 			out.print("<tr>");
@@ -85,7 +92,13 @@
 			out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("reg_date") + "</td>");
 			out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("board_like") + "</td>");
 			out.print("</tr>");
+			
+			count=count-1-delete_board_num;
 		}	
+		
+		else{
+			delete_board_num++;
+		}
 	}
 	%>
 	</table>

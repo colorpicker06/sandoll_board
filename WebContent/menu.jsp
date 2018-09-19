@@ -50,7 +50,9 @@ li a:hover:not(.active) {
   
   else if(session.getAttribute("id").equals("admin")){
 	  %>
+	  <li style="float:right"><a class="active" href="logout.jsp">로그아웃</a></li>
 	  <li style="float:right"><a class="active" href="admin_member.jsp">회원관리</a></li>
+	  <li style="float:right"><a class="active" href="admin_board.jsp">글 목록 관리</a></li>
   <%
   }
  

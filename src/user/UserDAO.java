@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import board.Board;
+
 public class UserDAO {
 	
 	private Connection conn;
@@ -105,6 +107,29 @@ public class UserDAO {
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
+		}
+		return -1;
+	}
+	
+	//계정 상태 변경
+	public int user_state(User user) {
+		
+		String sql = "update user set user_state = ?, id =?, name = ?, password =?, reg_date =?, nickname =? where pk=?";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, user.getUser_state() );
+			pstmt.setString(2, user.getId());
+			pstmt.setString(3, user.getName());
+			pstmt.setString(4, user.getPassword());
+			pstmt.setString(5, user.getReg_date());
+			pstmt.setString(6, user.getNickname());
+			pstmt.setInt(7, user.getPk());
+			
+			return pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
 		}
 		return -1;
 	}

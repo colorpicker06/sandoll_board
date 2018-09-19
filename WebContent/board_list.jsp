@@ -44,7 +44,7 @@
 		conn = DriverManager.getConnection(dbURL,dbID,dbPassword);
 	    stmt = conn.createStatement();
 	
-	    ResultSet countrs = stmt.executeQuery("select count(*) from board;"); 
+	    ResultSet countrs = stmt.executeQuery("select count(*) from board where board_delete = 0"); 
         
         if(countrs.next()){
             count = countrs.getInt(1);
