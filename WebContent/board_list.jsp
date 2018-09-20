@@ -37,7 +37,7 @@
 
 	try{
 	    Class.forName("com.mysql.jdbc.Driver");
-	    String dbURL = "jdbc:mysql://localhost:3306/sandoll_board";
+	    String dbURL = "jdbc:mysql://localhost:3306/sandoll_board?useSSL=false";
 		String dbID = "root";
 		String dbPassword = "1234";
 		Class.forName("com.mysql.jdbc.Driver");
@@ -68,9 +68,21 @@
 <%
 while(rs.next()){
 	
-	int board_delete = Integer.parseInt(rs.getString("board_delete"));
+	int board_delete = Integer.parseInt(rs.getString("board_delete"));	
 	
-	if(board_delete!=1){
+	if(board_delete!=1){		
+		
+		if(rs.getString("writer").equals("admin")){
+			out.print("<tr>");
+			out.print("<td style='color:red' onClick='goToDetail("+rs.getString("pk")+")'>"+ count + "</td>");
+			out.print("<td style='color:red' onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("title") + "</td>");
+			out.print("<td style='color:red' onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("writer") + "</td>");
+			out.print("<td style='color:red' onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("reg_date") + "</td>");
+			out.print("<td style='color:red' onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("board_like") + "</td>");
+			out.print("</tr>");
+		}
+		
+		else{
 		out.print("<tr>");
 		out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>"+ count + "</td>");
 		out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("title") + "</td>");
@@ -78,11 +90,10 @@ while(rs.next()){
 		out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("reg_date") + "</td>");
 		out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("board_like") + "</td>");
 		out.print("</tr>");
+		}		
 		
 		count=count-1;
 	}
-	
-	
 }
 %>
 </table>
@@ -90,6 +101,11 @@ while(rs.next()){
 
 
 <%
+
+	if(count > 0){
+		
+	}
+
       conn.close();
     }catch(Exception e){
         out.println("데이터베이스에 문제가 있습니다.");

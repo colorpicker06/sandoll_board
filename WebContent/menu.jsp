@@ -6,6 +6,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style>
+img{
+	margin-top:2%;
+	margin-bottom:1%;
+}
+
 ul {
     list-style-type: none;
     margin: 0;
@@ -36,6 +41,7 @@ li a:hover:not(.active) {
 </style>
 </head>
 <body>
+<img src = "image/sandoll.png" width="10%">
 <ul>
   <li><a href="write.jsp">글쓰기</a></li>
   <li><a href="board_list.jsp">글목록</a></li>

@@ -31,15 +31,6 @@
 <%@ include file="../menu.jsp" %>
 <h1>마이페이지 </h1>
 <% 
-
-	if(session.getAttribute("id")==null){
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("out.println('반갑습니다.')");
-		script.println("</script>");
-	}
-
-	else{
 		String userid = (String)session.getAttribute("id");
 		out.println(userid+"님 반갑습니다.");
 		
@@ -50,7 +41,7 @@
 
 		try{
 		    Class.forName("com.mysql.jdbc.Driver");
-		    String dbURL = "jdbc:mysql://localhost:3306/sandoll_board";
+		    String dbURL = "jdbc:mysql://localhost:3306/sandoll_board?useSSL=false";
 			String dbID = "root";
 			String dbPassword = "1234";
 			Class.forName("com.mysql.jdbc.Driver");
@@ -63,7 +54,7 @@
 	            count = countrs.getInt(1);
 	        }
 	        
-	        String sql = "select * from board where writer ="+"'"+userid+"'";
+	        String sql = "select * from board where writer ="+"'"+userid+"' order by pk desc";
 	        ResultSet rs = stmt.executeQuery(sql);
 
 	%>

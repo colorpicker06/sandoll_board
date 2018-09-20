@@ -15,7 +15,7 @@ public class UserDAO {
 		public UserDAO() {
 		
 		try {
-			String dbURL = "jdbc:mysql://localhost:3306/sandoll_board";
+			String dbURL = "jdbc:mysql://localhost:3306/sandoll_board?useSSL=false";
 			String dbID = "root";
 			String dbPassword = "1234";
 			Class.forName("com.mysql.jdbc.Driver");

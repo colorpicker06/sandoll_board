@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import board.Board;
 import sun.misc.Perf.GetPerfAction;
-import user.User;;
+import user.User;
 
 public class BoardDAO {
 	private Connection conn;
@@ -17,7 +17,7 @@ public class BoardDAO {
 
 	public BoardDAO() {	
 		try {
-			String dbURL = "jdbc:mysql://localhost:3306/sandoll_board";
+			String dbURL = "jdbc:mysql://localhost:3306/sandoll_board?useSSL=false";
 			String dbID = "root";
 			String dbPassword = "1234";
 			Class.forName("com.mysql.jdbc.Driver");

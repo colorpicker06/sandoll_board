@@ -1,3 +1,5 @@
+<%@page import="java.net.InetAddress"%>
+<%@page import="java.io.PrintWriter"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Statement"%>
@@ -25,14 +27,25 @@
 <body>
 <%@ include file="../menu.jsp" %>
 <%
+
+	if(!InetAddress.getLocalHost().getHostAddress().equals("192.168.1.221")){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('관리자페이지에 접속 할 수 있는 ip가 아닙니다.')");
+		script.println("location.href=('index.jsp')");
+		script.println("</script>");
+	}
+
 	Connection conn = null;
 	Statement stmt = null;
 	int count=0;
+	
+	
 
 
 	try{
 	    Class.forName("com.mysql.jdbc.Driver");
-	    String dbURL = "jdbc:mysql://localhost:3306/sandoll_board";
+	    String dbURL = "jdbc:mysql://localhost:3306/sandoll_board?useSSL=false";
 		String dbID = "root";
 		String dbPassword = "1234";
 		Class.forName("com.mysql.jdbc.Driver");

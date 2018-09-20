@@ -29,7 +29,7 @@
 
 	try{
 	    Class.forName("com.mysql.jdbc.Driver");
-	    String dbURL = "jdbc:mysql://localhost:3306/sandoll_board";
+	    String dbURL = "jdbc:mysql://localhost:3306/sandoll_board?useSSL=false";
 		String dbID = "root";
 		String dbPassword = "1234";
 		Class.forName("com.mysql.jdbc.Driver");
