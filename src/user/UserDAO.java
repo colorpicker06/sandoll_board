@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import board.Board;
 
@@ -12,6 +13,22 @@ public class UserDAO {
 	private Connection conn;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
+	
+	public int getNext() {
+		String SQL = "select pk from user order by pk desc";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return rs.getInt(1)+1;
+			}
+			return 1;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
 		public UserDAO() {
 		
 		try {
@@ -132,6 +149,72 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 		return -1;
+	}
+	
+	//회원 목록 불러오기
+	public ArrayList<User> getList(int pageNumber){
+		String SQL = "select * from user where pk <? order by pk desc LIMIT 10";
+		ArrayList<User> list = new ArrayList<User>();
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, getNext() - (pageNumber-1)*10);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				User user = new User();
+				user.setPk(rs.getInt(1));
+				user.setId(rs.getString(2));
+				user.setPassword(rs.getString(3));
+				user.setName(rs.getString(4));
+				user.setNickname(rs.getString(5));
+				user.setReg_date(rs.getString(6));
+				user.setUser_state(rs.getInt(7));
+				list.add(user);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return list;		
+	}
+	
+	//개인 정보 불러오기
+	public ArrayList<User> get_info_list(String id){
+		String SQL = "select * from user where id = ? ";
+		ArrayList<User> list = new ArrayList<User>();
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				User user = new User();
+				user.setPk(rs.getInt(1));
+				user.setId(rs.getString(2));
+				user.setPassword(rs.getString(3));
+				user.setName(rs.getString(4));
+				user.setNickname(rs.getString(5));
+				user.setReg_date(rs.getString(6));
+				user.setUser_state(rs.getInt(7));
+				list.add(user);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return list;		
+	}
+	
+	//다음 페이지
+	public boolean nextPage(int pageNumber) {
+		String SQL = "SELECT * from user where pk <? AND user_state=0";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, getNext()-(pageNumber-1)*10);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return true;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

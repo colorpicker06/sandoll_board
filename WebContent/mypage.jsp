@@ -1,3 +1,8 @@
+<%@page import="reply.Reply"%>
+<%@page import="reply.ReplyDAO"%>
+<%@page import="board.Board"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="board.BoardDAO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Statement"%>
@@ -31,31 +36,22 @@
 <%@ include file="../menu.jsp" %>
 <h1>마이페이지 </h1>
 <% 
+
+	if(session.getAttribute("id")==null){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("out.println('반갑습니다.')");
+		script.println("</script>");
+	}
+
+	else{
 		String userid = (String)session.getAttribute("id");
 		out.println(userid+"님 반갑습니다.");
+	
 		
-		Connection conn = null;
-		Statement stmt = null;
-		int count=0;
-
-
-		try{
-		    Class.forName("com.mysql.jdbc.Driver");
-		    String dbURL = "jdbc:mysql://localhost:3306/sandoll_board?useSSL=false";
-			String dbID = "root";
-			String dbPassword = "1234";
-			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(dbURL,dbID,dbPassword);
-		    stmt = conn.createStatement();
-		    
-		    ResultSet countrs = stmt.executeQuery("select count(*) from board where writer ="+"'"+userid+"' and board_delete = 0"); 
-	        
-	        if(countrs.next()){
-	            count = countrs.getInt(1);
-	        }
-	        
-	        String sql = "select * from board where writer ="+"'"+userid+"' order by pk desc";
-	        ResultSet rs = stmt.executeQuery(sql);
+		BoardDAO boardDAO = new BoardDAO();
+		ArrayList<Board> list = boardDAO.getMypage_board_list(userid);	
+		
 
 	%>
 	<br><br>
@@ -70,39 +66,50 @@
 	</tr>
 	<tr>
 	<%
-	while(rs.next()){
-		
-		int board_delete = Integer.parseInt(rs.getString("board_delete"));
-		int delete_board_num = 0;
-		
-		if(board_delete!=1){
+	for(int i=0; i<list.size(); i++){
+
 			out.print("<tr>");
-			out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>"+ count + "</td>");
-			out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("title") + "</td>");
-			out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("content") + "</td>");
-			out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("reg_date") + "</td>");
-			out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("board_like") + "</td>");
+			out.print("<td onClick='goToDetail("+list.get(i).getPk()+")'>"+ list.get(i).getPk() + "</td>");
+			out.print("<td onClick='goToDetail("+list.get(i).getPk()+")'>" + list.get(i).getTitle() + "</td>");
+			out.print("<td onClick='goToDetail("+list.get(i).getPk()+")'>" + list.get(i).getContent() + "</td>");
+			out.print("<td onClick='goToDetail("+list.get(i).getPk()+")'>" + list.get(i).getReg_date() + "</td>");
+			out.print("<td onClick='goToDetail("+list.get(i).getPk()+")'>" + list.get(i).getBoard_like() + "</td>");
 			out.print("</tr>");
 			
-			count=count-1-delete_board_num;
-		}	
-		
-		else{
-			delete_board_num++;
-		}
 	}
+	
 	%>
 	</table>
 	
 	<%
-	      conn.close();
-	    }catch(Exception e){
-	        out.println("데이터베이스에 문제가 있습니다.");
-	        out.println(e.getMessage());
-	        e.getStackTrace();
-	    }
+	ReplyDAO replyDAO = new ReplyDAO();
+	ArrayList<Reply> list2 = replyDAO.getMypage_reply_list(userid);	
+	
+
+	%>
+	<br><br>
+	<h2>내 댓글 목록</h2> <br><br>
+	<table>
+	<tr>
+	<td> 댓글 번호 </td>
+	<td> 댓글 내용 </td>
+	<td> 작성일 </td>
+	</tr>
+	
+	<tr>
+	<%
+	for(int i=0; i<list2.size(); i++){
+	
+			out.print("<tr>");
+			out.print("<td>"+ list2.get(i).getPk() + "</td>");
+			out.print("<td>" + list2.get(i).getReplytext() + "</td>");
+			out.print("<td>" + list2.get(i).getReg_date() + "</td>");
+			out.print("</tr>");
+			
 	}
-	%> 
+	}
+	%>
+</table>
 
 </body>
 </html>

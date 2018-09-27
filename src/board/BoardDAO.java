@@ -26,6 +26,21 @@ public class BoardDAO {
 			e.printStackTrace();
 		}		
 	}
+	
+	public int getNext() {
+		String SQL = "select pk from board order by pk desc";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return rs.getInt(1)+1;
+			}
+			return 1;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
 
 	
 	//글쓰기 
@@ -44,18 +59,6 @@ public class BoardDAO {
 		}
 		return -1;
 	}
-	
-	//글 목록
-	/*public ArrayList<Bbs> board_list(Board board) {
-		String sql = "select pk, title, content, writer,reg_date,board_like from board order by pk desc";
-		try {
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery(sql);
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}*/
 	
 			// 수정
 			public int board_change(Board board) {
@@ -113,5 +116,158 @@ public class BoardDAO {
 					e.printStackTrace();
 				}
 				return -1;
+			}
+			
+			//글 목록 불러오기
+			public ArrayList<Board> getList(int pageNumber){
+				String SQL = "select * from board where pk <? AND board_delete=0 order by pk desc LIMIT 10";
+				ArrayList<Board> list = new ArrayList<Board>();
+				try {
+					PreparedStatement pstmt = conn.prepareStatement(SQL);
+					pstmt.setInt(1, getNext() - (pageNumber-1)*10);
+					rs = pstmt.executeQuery();
+					while(rs.next()) {
+						Board board = new Board();
+						board.setPk(rs.getInt(1));
+						board.setTitle(rs.getString(2));
+						board.setContent(rs.getString(3));
+						board.setWriter(rs.getString(4));
+						board.setReg_date(rs.getString(5));
+						board.setBoard_like(rs.getInt(6));
+						board.setBoard_delete(rs.getInt(7));
+						list.add(board);
+					}
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				return list;		
+			}
+			
+			//글 목록 갯수 받아오기 
+			public int board_count() {
+				int count =0;        
+		        try{
+		            pstmt = conn.prepareStatement("select count(*) from board where board_delete = 0");
+		        
+		            rs = pstmt.executeQuery();
+		            
+		            if(rs.next()){
+		                count = rs.getInt(1);
+		            }
+		            
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				return count;
+			}
+			
+			//좋아요 업데이트
+			public int board_like_count(int board_pk,int board_count) {
+				
+				String sql = "update board set board_like = ? where pk=?";
+				
+				try {
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1,board_count);
+					pstmt.setInt(2,board_pk);
+					
+					return pstmt.executeUpdate();
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				return -1;			
+			}
+			
+			//관리자 글 목록 불러오기
+			public ArrayList<Board> get_admin_List(int pageNumber){
+				String SQL = "select * from board where pk <?  order by pk desc LIMIT 10";
+				ArrayList<Board> list = new ArrayList<Board>();
+				try {
+					PreparedStatement pstmt = conn.prepareStatement(SQL);
+					pstmt.setInt(1, getNext() - (pageNumber-1)*10);
+					rs = pstmt.executeQuery();
+					while(rs.next()) {
+						Board board = new Board();
+						board.setPk(rs.getInt(1));
+						board.setTitle(rs.getString(2));
+						board.setContent(rs.getString(3));
+						board.setWriter(rs.getString(4));
+						board.setReg_date(rs.getString(5));
+						board.setBoard_like(rs.getInt(6));
+						board.setBoard_delete(rs.getInt(7));
+						list.add(board);
+					}
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				return list;		
+			}
+			
+			//다음 페이지
+			public boolean nextPage(int pageNumber) {
+				String SQL = "SELECT * from board where pk <? AND board_delete=0";
+				try {
+					PreparedStatement pstmt = conn.prepareStatement(SQL);
+					pstmt.setInt(1, getNext()-(pageNumber-1)*10);
+					rs = pstmt.executeQuery();
+					if(rs.next()) {
+						return true;
+					}
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				return false;
+			}
+			
+			//글 상세내용
+			public ArrayList<Board> getDetail(int pk){
+				String SQL = "select * from board where pk =?";
+				ArrayList<Board> list = new ArrayList<Board>();
+				try {
+					PreparedStatement pstmt = conn.prepareStatement(SQL);
+					pstmt.setInt(1, pk);
+					rs = pstmt.executeQuery();
+					while(rs.next()) {
+						Board board = new Board();
+						board.setPk(rs.getInt(1));
+						board.setTitle(rs.getString(2));
+						board.setContent(rs.getString(3));
+						board.setWriter(rs.getString(4));
+						board.setReg_date(rs.getString(5));
+						board.setBoard_like(rs.getInt(6));
+						board.setBoard_delete(rs.getInt(7));
+						list.add(board);
+					}
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				return list;
+			}
+		
+			
+			//마이페이지 내 글 뽑아오기
+			public ArrayList<Board> getMypage_board_list(String id){
+				String SQL = "select * from board where writer =? AND board_delete=0";
+				ArrayList<Board> list = new ArrayList<Board>();
+				try {
+					PreparedStatement pstmt = conn.prepareStatement(SQL);
+					pstmt.setString(1,id);
+					rs = pstmt.executeQuery();
+					while(rs.next()) {
+						Board board = new Board();
+						board.setPk(rs.getInt(1));
+						board.setTitle(rs.getString(2));
+						board.setContent(rs.getString(3));
+						board.setWriter(rs.getString(4));
+						board.setReg_date(rs.getString(5));
+						board.setBoard_like(rs.getInt(6));
+						board.setBoard_delete(rs.getInt(7));
+						list.add(board);
+					}
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				return list;
 			}
 }

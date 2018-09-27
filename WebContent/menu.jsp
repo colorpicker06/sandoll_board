@@ -4,11 +4,23 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 <title>Insert title here</title>
 <style>
+*{
+	margin:0;
+	padding:0;
+}
 img{
 	margin-top:2%;
 	margin-bottom:1%;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+.header{
+	background-color: #ff584f;
 }
 
 ul {
@@ -16,7 +28,7 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: #f2f4f7;
 }
 
 li {
@@ -25,32 +37,32 @@ li {
 
 li a {
     display: block;
-    color: white;
+    color: black;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
 
 li a:hover:not(.active) {
-    background-color: #111;
+    background-color: #4286f4;
 }
 
 .active {
-    background-color: #4CAF50;
+    background-color: #4286f4;
 }
 </style>
 </head>
 <body>
-<img src = "image/sandoll.png" width="10%">
+<div class="header" width="100%"><img src = "image/logo2.png" width="10%"></div>
 <ul>
-  <li><a href="write.jsp">글쓰기</a></li>
-  <li><a href="board_list.jsp">글목록</a></li>
+  <li><a href="write.jsp"><i class="fas fa-pen-fancy"></i></a></li>
+  <li><a href="board_list.jsp"><i class="fas fa-clipboard-list"></i></a></li>
   
   <%
   if(session.getAttribute("id")==null){
   %>
-  <li style="float:right"><a class="active" href="login.jsp">로그인</a></li>
-  <li style="float:right"><a class="active" href="signin.jsp">회원가입</a></li>
+  <li style="float:right"><a class="active" href="login.jsp"><i class="far fa-user-circle"></i></a></li>
+  <li style="float:right"><a class="active" href="signin.jsp"><i class="fas fa-users"></i></a></li>
   <%
   }
   

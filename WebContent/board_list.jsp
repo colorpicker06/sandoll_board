@@ -3,12 +3,18 @@
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.ResultSet"%>
+<%@ page import = "board.BoardDAO" %>
+<%@ page import = "board.Board" %>
+ 	<%@ page import = "java.io.PrintWriter" %>
+ 	<% request.setCharacterEncoding("UTF-8"); %>
+    <%@ page import="java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="css/bootstrap.css">
 <title>Insert title here</title>
 </head>
 <style>
@@ -16,42 +22,41 @@
     width: 100%;
     border-top: 1px solid #444444;
     border-collapse: collapse;
+    text-decoration: none;
   }
   th, td {
     border-bottom: 1px solid #444444;
     padding: 10px;
+    text-decoration: none;
+  }
+  a{
+   text-decoration: none;
+   color:black;
+   }
+  td.admin{
+  	color:red;
+  }
+  a.admin{
+  	color:red;
   }
 </style>
 <script type="text/javascript">
-    function goToDetail(pk){
-        location.href="detail.jsp?pk="+pk; //페이지 이동
+    function list(page){
+        location.href="detail.jsp?curPage="+page; //페이지 이동
     }
 </script>
 <body>
 <%@ include file="../menu.jsp" %>
 <%
-	Connection conn = null;
-	Statement stmt = null;
-	int count=0;
-
-
-	try{
-	    Class.forName("com.mysql.jdbc.Driver");
-	    String dbURL = "jdbc:mysql://localhost:3306/sandoll_board?useSSL=false";
-		String dbID = "root";
-		String dbPassword = "1234";
-		Class.forName("com.mysql.jdbc.Driver");
-		conn = DriverManager.getConnection(dbURL,dbID,dbPassword);
-	    stmt = conn.createStatement();
+	String userID = null;
+	if (session.getAttribute("id") != null){
+		userID = (String) session.getAttribute("id");
+	}
 	
-	    ResultSet countrs = stmt.executeQuery("select count(*) from board where board_delete = 0"); 
-        
-        if(countrs.next()){
-            count = countrs.getInt(1);
-        }
-        
-        String sql = "select * from board order by pk desc;";
-        ResultSet rs = stmt.executeQuery(sql);
+	int pageNumber = 1;
+	if(request.getParameter("pageNumber")!= null){
+		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+	}
 
 %>
 <br><br>
@@ -66,52 +71,51 @@
 </tr>
 <tr>
 <%
-while(rs.next()){
-	
-	int board_delete = Integer.parseInt(rs.getString("board_delete"));	
-	
-	if(board_delete!=1){		
+
+		BoardDAO boardDAO = new BoardDAO();
+		ArrayList<Board> list = boardDAO.getList(pageNumber);
+		int count = boardDAO.board_count();
+		Statement stmt = null;
 		
-		if(rs.getString("writer").equals("admin")){
-			out.print("<tr>");
-			out.print("<td style='color:red' onClick='goToDetail("+rs.getString("pk")+")'>"+ count + "</td>");
-			out.print("<td style='color:red' onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("title") + "</td>");
-			out.print("<td style='color:red' onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("writer") + "</td>");
-			out.print("<td style='color:red' onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("reg_date") + "</td>");
-			out.print("<td style='color:red' onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("board_like") + "</td>");
-			out.print("</tr>");
+		
+		
+		/*ResultSet countrs = stmt.executeQuery("select count(*) from board where board_Delete = 0");
+		
+		if(countrs.next()){
+			count = countrs.getInt(1);
+		}*/
+			
+		for(int i=0; i<list.size(); i++){
+		
+		if(list.get(i).getWriter().equals("admin")){ %>
+			<tr>
+			<td class="admin"> <a class="admin" href = "detail.jsp?pk=<%=list.get(i).getPk()%>"><%= count %></a></td>
+			<td class="admin"> <a class="admin" href = "detail.jsp?pk=<%=list.get(i).getPk()%>"> <%= list.get(i).getTitle() %></a></td>
+			<td class="admin"> <a class="admin" href = "detail.jsp?pk=<%=list.get(i).getPk()%>"> <%= list.get(i).getWriter()%> </a></td>
+			<td class="admin"> <a class="admin" href = "detail.jsp?pk=<%=list.get(i).getPk()%>"> <%= list.get(i).getReg_date()%> </a></td>
+			<td class="admin"> <a class="admin" href = "detail.jsp?pk=<%=list.get(i).getPk()%>"> <%= list.get(i).getBoard_like()%> </a></td>
+			</tr>
+		<%}
+		
+		else{ %>
+		<tr>
+		<td> <a href = "detail.jsp?pk=<%=list.get(i).getPk()%>"><%= count %></a></td>
+		<td> <a href = "detail.jsp?pk=<%=list.get(i).getPk()%>"> <%= list.get(i).getTitle() %></a></td>
+		<td> <a href = "detail.jsp?pk=<%=list.get(i).getPk()%>"> <%= list.get(i).getWriter()%> </a></td>
+		<td> <a href = "detail.jsp?pk=<%=list.get(i).getPk()%>"> <%= list.get(i).getReg_date()%> </a></td>
+		<td> <a href = "detail.jsp?pk=<%=list.get(i).getPk()%>"> <%= list.get(i).getBoard_like()%> </a></td>
+		</tr>
+		<%}
 		}
-		
-		else{
-		out.print("<tr>");
-		out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>"+ count + "</td>");
-		out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("title") + "</td>");
-		out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("writer") + "</td>");
-		out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("reg_date") + "</td>");
-		out.print("<td onClick='goToDetail("+rs.getString("pk")+")'>" + rs.getString("board_like") + "</td>");
-		out.print("</tr>");
-		}		
-		
-		count=count-1;
-	}
-}
-%>
-</table>
+		%>
 
-
-
+</table> <br><br>
 <%
-
-	if(count > 0){
-		
-	}
-
-      conn.close();
-    }catch(Exception e){
-        out.println("데이터베이스에 문제가 있습니다.");
-        out.println(e.getMessage());
-        e.getStackTrace();
-    }
-%> 
+	if(pageNumber != 1){ %>
+		<a href="board_list.jsp?pageNumber=<%= pageNumber-1 %>" class="btn btn-primary btn-arrow-left">이전</a>
+	<%}
+		if(boardDAO.nextPage(pageNumber)){ %>
+			<a href="board_list.jsp?pageNumber=<%= pageNumber+1 %>" class="btn btn-primary btn-arrow-left">다음</a>
+		<%}%>
 </body>
 </html>
