@@ -22,7 +22,13 @@
 	href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
 	integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
 	crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
 <title>글 상세보기</title>
+<style>
+body{
+font-family: 'Nanum Gothic', sans-serif;
+}
+</style>
 </head>
 <body>
 	<script>
@@ -121,20 +127,18 @@
 	
 	int board_like = likeDAO.getHeart(user_id,board_pk);
 	
+	//좋아요 눌렀을 때
 	 if(board_like == 1){ %>
 		 <i class="fas fa-heart"></i>
 	 <%
 	 }//end of if
 	 
+	 //좋아요 안 눌렀을 때
 	 else if(board_like == -1){ %>
 		 <i class="far fa-heart" id="like" onclick="like('<%=board_pk%>','<%=session.getAttribute("id")%>','<%= heart_count %>');"></i>
 	<% }
 	
 	 %>
-	
-	
-	 
-	 
 
 	<h1>좋아요</h1><%= heart_count %>
 

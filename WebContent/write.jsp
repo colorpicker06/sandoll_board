@@ -10,16 +10,34 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
 <title>Insert title here</title>
 </head>
-<body>
-<center>
 <style>
 h2{
 	display:inline-block;
 }
 
+input { 
+	display:
+}
+
+.col-xs-7{
+	margin-left:18%;
+}
+
+label{
+	display: inline-block;
+}
+
+body{
+	font-family: 'Nanum Gothic', sans-serif;
+}
+
 </style>
+<body>
+<center>
+
 <%@ include file="../menu.jsp" %>
 <h1>글 쓰기</h1>
 <% 
@@ -76,24 +94,26 @@ h2{
 	        	for(int i=0; i<num.length; i++){
 		    		if(num[i]==rs.getInt("pk")){
 		    			out.print("<h2>"+rs.getString("font_family_name")+"</h2> &nbsp; &nbsp; &nbsp;");
-		    			out.print("<h2>"+rs.getString("pk")+"</h2> &nbsp; &nbsp; &nbsp;");
+		    			//out.print("<h2>"+rs.getString("pk")+"</h2> &nbsp; &nbsp; &nbsp;");
 		    			pk[i]=rs.getInt("pk");
 		    		}
 		    	}
 	        } // end of rs.next
 		%>
-			<form method="post" action="write_ok.jsp">
-			<div class="col-xs-4">
-			제목 : <input type="text" class="form-control" placeholder="제목" id="title" name="title"><br>
-			내용 :  <textarea class="form-control" rows="5" id="content" name="content"></textarea><br>
-			<input type="hidden" name="writer" id="writer" value="<%= userid %>">
-			<input type="hidden" name="pk1" id="pk1" value="<%= pk[0] %>">
-			<input type="hidden" name="pk2" id="pk2" value="<%= pk[1] %>">
-			<input type="hidden" name="pk3" id="pk3" value="<%= pk[2] %>">
-			<input type="submit" class="form-control" value="작성완료">
+			<div id="write">
+				<form method="post" action="write_okk.jsp">
+					<div class="col-xs-7">
+						<label>제목 :</label><input type="text" class="form-control" placeholder="제목" id="title" name="title"><br>
+						<label>내용 : </label> <textarea class="form-control" rows="5" id="content" name="content"></textarea><br>
+						<input type="hidden" name="writer" id="writer" value="<%= userid %>">
+						<input type="hidden" name="pk1" id="pk1" value="<%= pk[0] %>">
+						<input type="hidden" name="pk2" id="pk2" value="<%= pk[1] %>">
+						<input type="hidden" name="pk3" id="pk3" value="<%= pk[2] %>">
+						<input type="submit" class="form-control" value="작성완료">
+					</div>
+				</form>
 			</div>
-			</form>
-
+			
 	    	<%conn.close();
 	        }catch(Exception e){
 	            out.println("데이터베이스에 문제가 있습니다.");

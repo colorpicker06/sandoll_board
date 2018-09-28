@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import board.Board;
@@ -28,7 +29,7 @@ public class BoardDAO {
 	}
 	
 	public int getNext() {
-		String SQL = "select pk from board order by pk desc";
+		String SQL = "select pk from board where board_delete = 0 order by pk desc ";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			rs = pstmt.executeQuery();
@@ -145,14 +146,15 @@ public class BoardDAO {
 			
 			//글 목록 갯수 받아오기 
 			public int board_count() {
-				int count =0;        
+				int count =0;    
+				Statement stmt = null;
 		        try{
-		            pstmt = conn.prepareStatement("select count(*) from board where board_delete = 0");
-		        
-		            rs = pstmt.executeQuery();
+		        	stmt = conn.createStatement();
+		        	
+		    	    ResultSet countrs = stmt.executeQuery("select count(*) from board where board_delete = 0;"); 
 		            
-		            if(rs.next()){
-		                count = rs.getInt(1);
+		            if(countrs.next()){
+		                count = countrs.getInt(1);
 		            }
 		            
 				}catch(Exception e) {
@@ -270,4 +272,6 @@ public class BoardDAO {
 				}
 				return list;
 			}
+			
+			
 }

@@ -4,7 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/menu.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
 <title>Insert title here</title>
 <style>
 *{
@@ -13,7 +16,7 @@
 }
 img{
 	margin-top:2%;
-	margin-bottom:1%;
+	margin-bottom:0;
 	margin-left: auto;
 	margin-right: auto;
 	display: block;
@@ -23,65 +26,70 @@ img{
 	background-color: #ff584f;
 }
 
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #f2f4f7;
+body{
+font-family: 'Nanum Gothic', sans-serif;
+font-size: 15px;
 }
 
-li {
-    float: left;
+a{
+	font-size: 15px;
 }
 
-li a {
-    display: block;
-    color: black;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
 
-li a:hover:not(.active) {
-    background-color: #4286f4;
-}
-
-.active {
-    background-color: #4286f4;
-}
 </style>
 </head>
 <body>
-<div class="header" width="100%"><img src = "image/logo2.png" width="10%"></div>
-<ul>
-  <li><a href="write.jsp"><i class="fas fa-pen-fancy"></i></a></li>
-  <li><a href="board_list.jsp"><i class="fas fa-clipboard-list"></i></a></li>
+<a href="index.jsp"><div class="header" width="100%" height="50px"><img src = "image/logo2.png" width="10%" height="30%"></div></a>
+		<span onclick="openNav()">
+        <div class="ham-btn">
+            <span class="item-1 ham-dash"></span>
+            <span class="item-2 ham-dash"></span>
+            <span class="item-3 ham-dash"></span>
+        </div>
+        </span>
+        
+        <div id="mySidenav" class="sidenav">
+		  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+		  
+		  <%if(session.getAttribute("id")==null){ %>
+  		  <a href="login.jsp"><i class="far fa-user-circle"></i>&nbsp;로그인</a>
+		  <a href="signin.jsp"><i class="fas fa-users"></i>&nbsp;회원가입</a>
+		  <%
+		  }
   
-  <%
-  if(session.getAttribute("id")==null){
-  %>
-  <li style="float:right"><a class="active" href="login.jsp"><i class="far fa-user-circle"></i></a></li>
-  <li style="float:right"><a class="active" href="signin.jsp"><i class="fas fa-users"></i></a></li>
-  <%
-  }
-  
-  else if(session.getAttribute("id").equals("admin")){
-	  %>
-	  <li style="float:right"><a class="active" href="logout.jsp">로그아웃</a></li>
-	  <li style="float:right"><a class="active" href="admin_member.jsp">회원관리</a></li>
-	  <li style="float:right"><a class="active" href="admin_board.jsp">글 목록 관리</a></li>
-  <%
-  }
- 
-  else{
-  %>
-  <li style="float:right"><a class="active" href="info_change.jsp">개인정보 수정</a></li>
-  <li style="float:right"><a class="active" href="mypage.jsp">마이페이지</a></li>
-  <li style="float:right"><a class="active" href="logout.jsp">로그아웃</a></li>
-  <%
-  }
-  %>
-</ul>
+		  else if(session.getAttribute("id").equals("admin")){%>
+			  <a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;로그아웃</a>
+			  <a href="admin_member.jsp"><i class="fas fa-users-cog"></i>&nbsp;회원관리</a>
+			  <a href="admin_board.jsp"><i class="fas fa-clipboard-list"></i>&nbsp;글 목록 관리</a>
+		  <%
+		  }
+		 
+		  else{
+		  %>
+		  <i class="far fa-user-circle fa-2x" style="margin-left:30px"></i>
+          <h5><%= session.getAttribute("id") %></h5><br>
+		  <a href="info_change.jsp"><i class="fas fa-user-edit"></i>&nbsp;개인정보 수정</a>
+		  <a href="mypage.jsp"><i class="fas fa-user-tag"></i>&nbsp;마이페이지</a>
+		  <a href="logout.jsp"><i class="fas fa-sign-out-alt"></i>&nbsp;로그아웃</a>
+		  <%
+		  }
+		  %>
+		  <a href="write.jsp"><i class="fas fa-edit"></i>&nbsp;글쓰기 </a>
+		  <a href="board_list.jsp"><i class="fas fa-clipboard-list"></i>&nbsp;글목록</a>
+</div>
+
+<script>
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+    document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("main").style.marginLeft= "0";
+    document.body.style.backgroundColor = "white";
+}
+</script>
 </body>
 </html>

@@ -13,22 +13,35 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
 <title>Insert title here</title>
 </head>
 <body>
 <style>
   table {
-    width: 100%;
     border-top: 1px solid #444444;
     border-collapse: collapse;
+    width: 80%;
+    margin-left:auto;
+    margin-right:auto;
   }
   th, td {
     border-bottom: 1px solid #444444;
     padding: 10px;
   }
+  
+  body{
+font-family: 'Nanum Gothic', sans-serif;
+}
+
+h1{
+	margin-left:10%;
+}
+  
 </style>
 <body>
 <%@ include file="../menu.jsp" %>
+<div id = "main">
 <%
 	String userID = null;
 	if (session.getAttribute("id") != null){
@@ -52,7 +65,7 @@
 	ArrayList<Board> list = boardDAO.get_admin_List(pageNumber);
 
 %>
-게시글 관리 <br><br><br><br>
+<h1>게시글 관리</h1> <br>
 <table>
 <tr>
 <td> 번호 </td>
@@ -92,5 +105,6 @@ for(int i=0; i<list.size(); i++){ %>
 		if(boardDAO.nextPage(pageNumber)){ %>
 			<a href="admin_board.jsp?pageNumber=<%= pageNumber+1 %>" class="btn btn-primary btn-arrow-left">다음</a>
 		<%}%>
+</div>
 </body>
 </html>

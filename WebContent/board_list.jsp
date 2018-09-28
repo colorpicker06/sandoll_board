@@ -15,14 +15,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="css/bootstrap.css">
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
 <title>Insert title here</title>
 </head>
 <style>
+body{
+font-family: 'Nanum Gothic', sans-serif;
+}
+
   table {
-    width: 100%;
     border-top: 1px solid #444444;
     border-collapse: collapse;
     text-decoration: none;
+    width: 70%;
+    margin-left:auto;
+    margin-right:auto;
   }
   th, td {
     border-bottom: 1px solid #444444;
@@ -39,6 +46,15 @@
   a.admin{
   	color:red;
   }
+  
+  h1{
+  	margin-left:15%;
+  }
+  
+  a.btn.btn-primary btn-arrow-left{
+  	margin-left:auto;
+  	margin-right:auto;
+  }
 </style>
 <script type="text/javascript">
     function list(page){
@@ -48,6 +64,8 @@
 <body>
 <%@ include file="../menu.jsp" %>
 <%
+
+
 	String userID = null;
 	if (session.getAttribute("id") != null){
 		userID = (String) session.getAttribute("id");
@@ -60,7 +78,7 @@
 
 %>
 <br><br>
-글 목록 <br><br><br><br>
+<h1>글 목록</h1>
 <table>
 <tr>
 <td> 글 번호 </td>
@@ -77,13 +95,15 @@
 		int count = boardDAO.board_count();
 		Statement stmt = null;
 		
-		
-		
-		/*ResultSet countrs = stmt.executeQuery("select count(*) from board where board_Delete = 0");
-		
-		if(countrs.next()){
-			count = countrs.getInt(1);
-		}*/
+		//페이징
+		int totalRecord = count; //전체 글의 수
+		int numPerPage = 5; //한 페이지당 보여질 근의 수
+		int pagePerBlock =3; //한 블럭당묶여질 페이지 수
+		int totalPage = 0; //전체 페이지의 수
+		int totalBlock = 0; //전체 블럭  수
+		int nowPage = 0; //현재 보여질 페이지
+		int nowBlock = 0; //현재 보여질 블럭
+		int beginPerPage = 0;//각 페이지의 시작 글 번호
 			
 		for(int i=0; i<list.size(); i++){
 		
@@ -111,6 +131,7 @@
 
 </table> <br><br>
 <%
+
 	if(pageNumber != 1){ %>
 		<a href="board_list.jsp?pageNumber=<%= pageNumber-1 %>" class="btn btn-primary btn-arrow-left">이전</a>
 	<%}

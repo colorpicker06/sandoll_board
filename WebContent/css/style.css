@@ -1,0 +1,24 @@
+div.orbit-container
+{
+	height: 100%;
+	width: 100%;
+}
+ul.orbit-ul, li.orbit-item
+{
+  height: 500px;
+}
+li.orbit-item-1
+{
+  background: url("../image/original.gif") no-repeat center;
+  background-size: cover;
+}
+li.orbit-item-2
+{
+  background: url("../image/original.gif") no-repeat center;
+  background-size: cover;
+}
+li.orbit-item-3
+{
+  background: url("../image/original.gif") no-repeat center;
+  background-size: cover;
+}

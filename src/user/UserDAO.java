@@ -55,7 +55,7 @@ public class UserDAO {
 				else
 					return 0; // 비밀번호 틀림 
 			}
-			return -1; //아이디 틀림 
+			return -1; //아이디 없
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

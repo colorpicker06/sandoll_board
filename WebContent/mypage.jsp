@@ -14,18 +14,30 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
 <title>Insert title here</title>
 </head>
 <style>
   table {
-    width: 100%;
     border-top: 1px solid #444444;
     border-collapse: collapse;
+    width: 90%;
+    margin-left:auto;
+    margin-right:auto;
   }
   th, td {
     border-bottom: 1px solid #444444;
     padding: 10px;
   }
+  
+  body{
+font-family: 'Nanum Gothic', sans-serif;
+}
+
+h2,h1{
+	margin-left:5%;
+}
+  
 </style>
 <body>
 <script type="text/javascript">
@@ -35,6 +47,7 @@
 </script>
 <%@ include file="../menu.jsp" %>
 <h1>마이페이지 </h1>
+<div id = "main">
 <% 
 
 	if(session.getAttribute("id")==null){
@@ -46,8 +59,6 @@
 
 	else{
 		String userid = (String)session.getAttribute("id");
-		out.println(userid+"님 반갑습니다.");
-	
 		
 		BoardDAO boardDAO = new BoardDAO();
 		ArrayList<Board> list = boardDAO.getMypage_board_list(userid);	
@@ -55,12 +66,12 @@
 
 	%>
 	<br><br>
-	<h2>내 글 목록</h2> <br><br>
+	<h2>내 글 목록</h2><br>
 	<table>
 	<tr>
 	<td> 글 번호 </td>
 	<td> 글 제목 </td>
-	<td> 글 내 </td>
+	<td> 글 내용 </td>
 	<td> 날짜 </td>
 	<td> 좋아요 </td>
 	</tr>
@@ -88,7 +99,7 @@
 
 	%>
 	<br><br>
-	<h2>내 댓글 목록</h2> <br><br>
+	<h2>내 댓글 목록</h2><br>
 	<table>
 	<tr>
 	<td> 댓글 번호 </td>
@@ -104,12 +115,11 @@
 			out.print("<td>"+ list2.get(i).getPk() + "</td>");
 			out.print("<td>" + list2.get(i).getReplytext() + "</td>");
 			out.print("<td>" + list2.get(i).getReg_date() + "</td>");
-			out.print("</tr>");
-			
+			out.print("</tr>");		
 	}
-	}
+}
 	%>
 </table>
-
+</div>
 </body>
 </html>

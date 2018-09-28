@@ -13,12 +13,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
 <title>Insert title here</title>
 </head>
 <body>
 <style>
   table {
-    width: 100%;
+    width: 80%;
+    margin-left:auto;
+    margin-right:auto;
     border-top: 1px solid #444444;
     border-collapse: collapse;
   }
@@ -26,9 +29,18 @@
     border-bottom: 1px solid #444444;
     padding: 10px;
   }
+  
+  body{
+font-family: 'Nanum Gothic', sans-serif;
+}
+
+h1{
+	margin-left:10%;
+}
 </style>
 <body>
 <%@ include file="../menu.jsp" %>
+<div id = "main">
 <%
 
 	if(!InetAddress.getLocalHost().getHostAddress().equals("192.168.1.79")){
@@ -48,7 +60,7 @@
 		ArrayList<User> list = userDAO.getList(pageNumber);
 
 %>
-회원 관리 <br><br><br><br>
+<h1>회원 관리</h1> <br>
 <table>
 <tr>
 <td> 번호 </td>
@@ -85,5 +97,6 @@ for(int i=0; i<list.size(); i++){ %>
 }
 %>
 </table>
+</div>
 </body>
 </html>
