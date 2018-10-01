@@ -14,6 +14,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
+<link rel="stylesheet" href="css/bootstrap.css">
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <title>Insert title here</title>
 </head>
 <body>
@@ -47,22 +50,29 @@ h1{
 	if (session.getAttribute("id") != null){
 		userID = (String) session.getAttribute("id");
 	}
-	
-	int pageNumber = 1;
-	if(request.getParameter("pageNumber")!= null){
-		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-	}
 
-	if(!InetAddress.getLocalHost().getHostAddress().equals("192.168.1.79")){ //192.168.0.22 sandollguest 192.168.1.221
+	/*if(!InetAddress.getLocalHost().getHostAddress().equals("192.168.1.79")){ //192.168.0.22 sandollguest 192.168.1.221
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('관리자페이지에 접속 할 수 있는 ip가 아닙니다.')");
 		script.println("location.href=('index.jsp')");
 		script.println("</script>");
+	}*/
+	
+	String pageNumber = "1";
+	if(request.getParameter("pageNumber")!= null){
+		pageNumber = request.getParameter("pageNumber");
+	}
+	try{
+		Integer.parseInt(pageNumber);
+	}catch(Exception e){
+		response.sendRedirect("board_list.jsp");
+		return;
 	}
 	
 	BoardDAO boardDAO = new BoardDAO();
-	ArrayList<Board> list = boardDAO.get_admin_List(pageNumber);
+	ArrayList<Board> boardList = new BoardDAO().getList(pageNumber);
+
 
 %>
 <h1>게시글 관리</h1> <br>
@@ -77,19 +87,20 @@ h1{
 </tr>
 
 <%
-for(int i=0; i<list.size(); i++){ %>
+for(int i=0; i<boardList.size(); i++){
+	Board board = boardList.get(i); %>
 	<tr>
 	<form action='admin_board_change.jsp' method='post'>
-	<td><%=list.get(i).getPk() %></td>
-	<td><input type="text" name="title" id = "title" value="<%=list.get(i).getTitle()%>"></input></td>
-	<td><input type="text" name="writer" id = "writer" value="<%=list.get(i).getWriter()%>"></input></td>
-	<td><input type="text" name="reg_date" id = "reg_date" value="<%=list.get(i).getReg_date()%>"></input></td>
-	<td><input type="number" name="board_like" id = "board_like" value="<%=list.get(i).getBoard_like()%>"></input></td>
+	<td><%=board.getPk() %></td>
+	<td><input type="text" name="title" id = "title" value="<%=board.getTitle()%>"></input></td>
+	<td><input type="text" name="writer" id = "writer" value="<%=board.getWriter()%>"></input></td>
+	<td><input type="text" name="reg_date" id = "reg_date" value="<%=board.getReg_date()%>"></input></td>
+	<td><input type="number" name="board_like" id = "board_like" value="<%=board.getBoard_like()%>"></input></td>
 	<td>
-	<input type="hidden" name="pk" id="pk" value="<%=list.get(i).getPk()%>">	
+	<input type="hidden" name="pk" id="pk" value="<%=board.getPk()%>">	
 	<select name="board_delete" id="board_delete">
-		<option value=0 <% if(list.get(i).getBoard_delete()==0){%>selected<% } %>>일반 게시물</option>
-		<option value=1 <% if(list.get(i).getBoard_delete()==1){%>selected<% } %>>삭제 게시물</option>
+		<option value=0 <% if(board.getBoard_delete()==0){%>selected<% } %>>일반 게시물</option>
+		<option value=1 <% if(board.getBoard_delete()==1){%>selected<% } %>>삭제 게시물</option>
 	</select>
 	<input type="submit" value="수정">	
 	</td>
@@ -98,13 +109,40 @@ for(int i=0; i<list.size(); i++){ %>
 <%}
 %>
 </table>
+<ul class="pagination" style="margin-left:45%;">
 <%
-	if(pageNumber != 1){ %>
-		<a href="admin_board.jsp?pageNumber=<%= pageNumber-1 %>" class="btn btn-primary btn-arrow-left">이전</a>
-	<%}
-		if(boardDAO.nextPage(pageNumber)){ %>
-			<a href="admin_board.jsp?pageNumber=<%= pageNumber+1 %>" class="btn btn-primary btn-arrow-left">다음</a>
-		<%}%>
+	int startPage = (Integer.parseInt(pageNumber)/10)*10 +1;
+	if(Integer.parseInt(pageNumber)%10==0) startPage -= 10;
+	int targetPage = new BoardDAO().targetPage(pageNumber);
+	if(startPage!=1){
+%>
+<li><a href = "admin_board?pageNumber=<%= startPage-1 %>"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+<% 
+	}else {
+%>
+<li><span class="glyphicon glyphicon-chevron-left" style="color:gray;"></span></li>
+<% } 
+	for(int i= startPage; i<Integer.parseInt(pageNumber); i++){ %>
+	<li><a href = "admin_board.jsp?pageNumber=<%= i %>"><%= i %></a></li>
+<% }
+%>
+	<li><a href = "admin_board.jsp?pageNumber=<%= pageNumber %>" style="color:red;"><%= pageNumber %></a></li>
+	
+<%
+	for(int i=Integer.parseInt(pageNumber)+1; i<=targetPage+Integer.parseInt(pageNumber); i++){
+		if(i<startPage+10){ %>
+		<li><a href = "admin_board.jsp?pageNumber=<%= i %>"><%= i %></a></li>
+<%		}
+	}
+if(targetPage + Integer.parseInt(pageNumber)>startPage+9){ %>
+	<li><a href = "admin_board.jsp?pageNumber=<%= startPage+10 %>"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+<%
+} else{ %>
+	<li><span class="glyphicon glyphicon-chevron-right" style="color:gray;"></span></a></li>
+<%
+}
+%>
+</ul>
 </div>
 </body>
 </html>

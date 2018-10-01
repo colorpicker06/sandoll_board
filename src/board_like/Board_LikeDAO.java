@@ -73,8 +73,7 @@ public class Board_LikeDAO {
 				pstmt.setInt(2,board_pk);
 				rs = pstmt.executeQuery();
 				if(rs.next()) {
-					int like = rs.getInt("board_like");
-					
+					int like = rs.getInt("board_like");				
 					return like;
 				}
 				
@@ -91,10 +90,8 @@ public class Board_LikeDAO {
 		
 		//하트 총 개수
 		public int heart_count(int pk) {
-			int count =0;
-			
-			String sql = "select count(*) from board_like where board_pk = ?";
-	        
+			int count =0;		
+			String sql = "select count(*) from board_like where board_pk = ?";	        
 	        try{
 	            pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1,pk);
@@ -102,12 +99,10 @@ public class Board_LikeDAO {
 	            rs = pstmt.executeQuery();
 	            
 	            if(rs.next()){
-	                count = rs.getInt(1);
-	            }
+	                count = rs.getInt(1);}
 	            
 			}catch(Exception e) {
-				e.printStackTrace();
-			}
+				e.printStackTrace(); }
 			return count;
 		}
 

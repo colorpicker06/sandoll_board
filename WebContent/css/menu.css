@@ -1,95 +1,4 @@
-:root {
-    --primary-color: #eee;
-    --ham-btn-color: #ff584f;
-    --ham-dash-color: #e54d44;
-}
 
-
-* {
-    margin: 0;
-    padding: 0;
-}
-
-*::before,
-*::after {
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 20%;
-    transition: background-color .5s;
-}
-
-
-.container {
-    background-color: var(--primary-color);
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.ham-btn {
-	margin:1%;
-    background: var(--ham-btn-color);
-    width: 60px;
-    height: 60px;
-    border-radius: 100%;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 2px snow solid;
-    cursor: pointer;
-
-    transition: all .3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
-}
-
-.ham-dash{
-    width: 60%;
-    height: 3px;
-    background-color: var(--ham-dash-color);
-    position: relative;
-}
-
-.ham-dash:not(:last-child) {
-    margin-bottom: 4px;
-}
-
-.item-1::before,
-.item-2::before,
-.item-3::before {
-    content: '';
-    position: absolute;
-    background: var(--primary-color);
-    width: 0%;
-    height: 100%;
-    transition: all .2s ease-in-out;
-}
-.item-2::before {
-    transition-delay: .1s;
-}
-
-.item-2::before {
-    transition-delay: .1.5s;
-}
-
-.item-3::before {
-    transition-delay: .2s;
-}
-
-.ham-btn:hover {
-    box-shadow: 0 0 3rem #3a11637e;
-}
-
-.ham-btn:hover .item-1::before,
-.ham-btn:hover .item-2::before,
-.ham-btn:hover .item-3::before {
-    width: 100%;
-}
 
 .sidenav {
     height: 100%;
@@ -119,7 +28,7 @@ i{
 }
 
 .sidenav a:hover {
-    color: #f1f1f1;
+    color: #06acff;
 }
 
 .sidenav .closebtn {

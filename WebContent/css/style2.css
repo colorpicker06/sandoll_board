@@ -1,0 +1,33 @@
+body
+{
+  background: url("../image/img_1.png");
+  background-size: 100%;
+}
+
+.ex .arrow_top {
+width:6%;
+margin-top: -1%;
+margin-left:73%;
+}
+.ex .arrow_top img {position:relative; -webkit-animation: myfirst 0.7s linear 1s infinite alternate; /*normal;  Chrome, Safari, Opera */ animation: myfirst 0.7s linear 1s infinite alternate; /*normal;  Standard syntax */}
+
+
+.ex .arrow_top2 {
+width:4%;
+margin-top: 18%;
+margin-left:68%;
+}
+.ex .arrow_top2 img {position:relative; -webkit-animation: myfirst 0.5s linear 1s infinite alternate; /*normal;  Chrome, Safari, Opera */ animation: myfirst 0.5s linear 1s infinite alternate; /*normal;  Standard syntax */}
+
+/* Chrome, Safari, Opera */
+
+@-webkit-keyframes myfirst {
+    0%   {opacity: 1.0; top:15px;}
+    100% {opacity: 1.0; top:0px;}
+}
+
+/* Standard syntax */
+@keyframes myfirst {
+    0%   {opacity: 1.0; top:15px;}
+    100% {opacity: 1.0; top:0px;}
+}

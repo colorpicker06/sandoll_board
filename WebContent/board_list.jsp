@@ -16,6 +16,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="css/bootstrap.css">
 <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <title>Insert title here</title>
 </head>
 <style>
@@ -55,6 +56,7 @@ font-family: 'Nanum Gothic', sans-serif;
   	margin-left:auto;
   	margin-right:auto;
   }
+  
 </style>
 <script type="text/javascript">
     function list(page){
@@ -62,26 +64,36 @@ font-family: 'Nanum Gothic', sans-serif;
     }
 </script>
 <body>
+
 <%@ include file="../menu.jsp" %>
+
+<a href="write.jsp"><img src=  "image/img_6.png" width=100%></a>
 <%
-
-
 	String userID = null;
 	if (session.getAttribute("id") != null){
 		userID = (String) session.getAttribute("id");
 	}
 	
-	int pageNumber = 1;
+	String pageNumber = "1";
 	if(request.getParameter("pageNumber")!= null){
-		pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+		pageNumber = request.getParameter("pageNumber");
 	}
+	try{
+		Integer.parseInt(pageNumber);
+	}catch(Exception e){
+		response.sendRedirect("board_list.jsp");
+		return;
+	}
+	BoardDAO boardDAO = new BoardDAO();
+	//ArrayList<Board> list = boardDAO.getList(pageNumber);
+	int count = boardDAO.board_count();
+	ArrayList<Board> boardList = new BoardDAO().getList(pageNumber);
 
 %>
 <br><br>
 <h1>글 목록</h1>
 <table>
 <tr>
-<td> 글 번호 </td>
 <td> 글 제목 </td>
 <td> 글쓴이 </td>
 <td> 날짜 </td>
@@ -90,53 +102,69 @@ font-family: 'Nanum Gothic', sans-serif;
 <tr>
 <%
 
-		BoardDAO boardDAO = new BoardDAO();
-		ArrayList<Board> list = boardDAO.getList(pageNumber);
-		int count = boardDAO.board_count();
-		Statement stmt = null;
 		
-		//페이징
-		int totalRecord = count; //전체 글의 수
-		int numPerPage = 5; //한 페이지당 보여질 근의 수
-		int pagePerBlock =3; //한 블럭당묶여질 페이지 수
-		int totalPage = 0; //전체 페이지의 수
-		int totalBlock = 0; //전체 블럭  수
-		int nowPage = 0; //현재 보여질 페이지
-		int nowBlock = 0; //현재 보여질 블럭
-		int beginPerPage = 0;//각 페이지의 시작 글 번호
+		//Statement stmt = null;
 			
-		for(int i=0; i<list.size(); i++){
+		for(int i=0; i<boardList.size(); i++){
+		Board board = boardList.get(i);
 		
-		if(list.get(i).getWriter().equals("admin")){ %>
+		if(board.getWriter().equals("admin")){ %>
 			<tr>
-			<td class="admin"> <a class="admin" href = "detail.jsp?pk=<%=list.get(i).getPk()%>"><%= count %></a></td>
-			<td class="admin"> <a class="admin" href = "detail.jsp?pk=<%=list.get(i).getPk()%>"> <%= list.get(i).getTitle() %></a></td>
-			<td class="admin"> <a class="admin" href = "detail.jsp?pk=<%=list.get(i).getPk()%>"> <%= list.get(i).getWriter()%> </a></td>
-			<td class="admin"> <a class="admin" href = "detail.jsp?pk=<%=list.get(i).getPk()%>"> <%= list.get(i).getReg_date()%> </a></td>
-			<td class="admin"> <a class="admin" href = "detail.jsp?pk=<%=list.get(i).getPk()%>"> <%= list.get(i).getBoard_like()%> </a></td>
+			<td class="admin"> <a class="admin" href = "detail.jsp?pk=<%=board.getPk()%>"> <%= board.getTitle() %></a></td>
+			<td class="admin"> <a class="admin" href = "detail.jsp?pk=<%=board.getPk()%>"> <%= board.getWriter()%> </a></td>
+			<td class="admin"> <a class="admin" href = "detail.jsp?pk=<%=board.getPk()%>"> <%= board.getReg_date()%> </a></td>
+			<td class="admin"> <a class="admin" href = "detail.jsp?pk=<%=board.getPk()%>"> <%= board.getBoard_like()%> </a></td>
 			</tr>
 		<%}
 		
 		else{ %>
 		<tr>
-		<td> <a href = "detail.jsp?pk=<%=list.get(i).getPk()%>"><%= count %></a></td>
-		<td> <a href = "detail.jsp?pk=<%=list.get(i).getPk()%>"> <%= list.get(i).getTitle() %></a></td>
-		<td> <a href = "detail.jsp?pk=<%=list.get(i).getPk()%>"> <%= list.get(i).getWriter()%> </a></td>
-		<td> <a href = "detail.jsp?pk=<%=list.get(i).getPk()%>"> <%= list.get(i).getReg_date()%> </a></td>
-		<td> <a href = "detail.jsp?pk=<%=list.get(i).getPk()%>"> <%= list.get(i).getBoard_like()%> </a></td>
+		<td> <a href = "detail.jsp?pk=<%=board.getPk()%>"> <%= board.getTitle() %></a></td>
+		<td> <a href = "detail.jsp?pk=<%=board.getPk()%>"> <%= board.getWriter()%> </a></td>
+		<td> <a href = "detail.jsp?pk=<%=board.getPk()%>"> <%= board.getReg_date()%> </a></td>
+		<td> <a href = "detail.jsp?pk=<%=board.getPk()%>"> <%= board.getBoard_like()%> </a></td>
 		</tr>
 		<%}
 		}
 		%>
 
 </table> <br><br>
-<%
 
-	if(pageNumber != 1){ %>
-		<a href="board_list.jsp?pageNumber=<%= pageNumber-1 %>" class="btn btn-primary btn-arrow-left">이전</a>
-	<%}
-		if(boardDAO.nextPage(pageNumber)){ %>
-			<a href="board_list.jsp?pageNumber=<%= pageNumber+1 %>" class="btn btn-primary btn-arrow-left">다음</a>
-		<%}%>
+<ul class="pagination" style="margin-left:45%;">
+<%
+	int startPage = (Integer.parseInt(pageNumber)/10)*10 +1;
+	if(Integer.parseInt(pageNumber)%10==0) startPage -= 10;
+	int targetPage = new BoardDAO().targetPage(pageNumber);
+	if(startPage!=1){
+%>
+<li><a href = "board_list.jsp?pageNumber=<%= startPage-1 %>"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+<% 
+	}else {
+%>
+<li><span class="glyphicon glyphicon-chevron-left" style="color:gray;"></span></li>
+<% } 
+	for(int i= startPage; i<Integer.parseInt(pageNumber); i++){ %>
+	<li><a href = "board_list.jsp?pageNumber=<%= i %>"><%= i %></a></li>
+<% }
+%>
+	<li><a href = "board_list.jsp?pageNumber=<%= pageNumber %>" style="color:red;"><%= pageNumber %></a></li>
+	
+<%
+	for(int i=Integer.parseInt(pageNumber)+1; i<=targetPage+Integer.parseInt(pageNumber); i++){
+		if(i<startPage+10){ %>
+		<li><a href = "board_list.jsp?pageNumber=<%= i %>"><%= i %></a></li>
+<%		}
+	}
+if(targetPage + Integer.parseInt(pageNumber)>startPage+9){ %>
+	<li><a href = "board_list.jsp?pageNumber=<%= startPage+10 %>"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+<%
+} else{ %>
+	<li><span class="glyphicon glyphicon-chevron-right" style="color:gray;"></span></a></li>
+<%
+}
+%>
+</ul>
+
+<br><br><br>
 </body>
 </html>

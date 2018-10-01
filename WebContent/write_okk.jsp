@@ -16,13 +16,31 @@
 <body>
 <%
 	String content = request.getParameter("content");
+	String	title = request.getParameter("title");
 	String pk1 = request.getParameter("pk1");
 	String pk2 = request.getParameter("pk2");
 	String pk3 = request.getParameter("pk3");
 	
+	out.print("글 내용"+content);
 	out.print("pk1"+pk1);
 	out.print("pk2"+pk2);
 	out.print("pk3"+pk3);
+	
+	if (content.indexOf(pk2) >-1 && content.indexOf(pk1) >-1 && content.indexOf(pk3) >-1 ){
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("location.href='write_ok.jsp'");
+		script.println("</script>");
+	}
+	
+	else{
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('글자를 모두 포함하지 않았습니다. 다시 쓰세요.')");
+		script.println("history.back()");
+		script.println("</script>");
+	}
+	
 	
 %>
 </body>

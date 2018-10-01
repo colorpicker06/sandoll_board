@@ -10,20 +10,39 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
 <title>Insert title here</title>
 </head>
+<script>
+function chk_word(){
+	var myform = document.forms['write'];
+	
+	var content = myform['content'].value;
+	var pk1 = myform['pk1'].value;
+	var pk2 = myform['pk2'].value;
+	var pk3 = myform['pk3'].value;
+	 
+	 //alert(content+"pk1"+pk1+"pk2"+pk2+"pk3"+pk3);
+	 
+	 if (content.indexOf(pk1) != -1 && content.indexOf(pk2)!= -1 && content.indexOf(pk3)!= -1) {
+		  return true;
+	}
+	 
+	 else {
+		 alert("모든 제시어가 포함되지 않았습니다. 다시 작성해보세요 :)");
+		 return false;
+	 }
+}
+
+</script>
 <style>
-h2{
+h1, h2{
 	display:inline-block;
 }
 
 input { 
-	display:
-}
-
-.col-xs-7{
-	margin-left:18%;
+	display: inline-block;
 }
 
 label{
@@ -32,14 +51,28 @@ label{
 
 body{
 	font-family: 'Nanum Gothic', sans-serif;
+	display: inline-block;
+}
+
+img{
+display: inline-block;
+}
+
+img.cha{
+	display: inline-block;
+	margin-top:-4%;
+	margin-left:2%;
+	margin-right:2%;
 }
 
 </style>
 <body>
-<center>
-
 <%@ include file="../menu.jsp" %>
-<h1>글 쓰기</h1>
+<center>
+<img  src="image/img_6.png" style="width:100%;"/><br><br><br>
+
+<img class="cha" src="image/doll.png" style="width:5%;"><h2>제시어</h2><img class="cha" src="image/doll.png" style="width:5%;"/><br><br>
+<hr>
 <% 
 
 	if(session.getAttribute("id")==null){
@@ -77,6 +110,7 @@ body{
 	        
 	        int num[] = new int[3];
 	        int pk[] = new int[3];
+	        String word[] = new String[3];
 	        
 	        for(int i=0; i<num.length; i++){
 	        	num[i]=(int)(Math.random()*count)+1;
@@ -87,33 +121,34 @@ body{
 	        			break;
 	        		}
 	        	}
-	        } //랜덤 숫자 뽑기        
+	        } //랜덤 숫자 뽑기   
 	    	
 	        while(rs.next()){ 
 	       	
 	        	for(int i=0; i<num.length; i++){
 		    		if(num[i]==rs.getInt("pk")){
-		    			out.print("<h2>"+rs.getString("font_family_name")+"</h2> &nbsp; &nbsp; &nbsp;");
+		    			out.print("<h1>"+rs.getString("font_family_name")+"</h1> &nbsp; &nbsp; &nbsp;");
 		    			//out.print("<h2>"+rs.getString("pk")+"</h2> &nbsp; &nbsp; &nbsp;");
-		    			pk[i]=rs.getInt("pk");
+		    			word[i]=rs.getString("font_family_name").trim();
+		    			//pk[i]=num[i];
 		    		}
 		    	}
 	        } // end of rs.next
 		%>
-			<div id="write">
-				<form method="post" action="write_okk.jsp">
-					<div class="col-xs-7">
-						<label>제목 :</label><input type="text" class="form-control" placeholder="제목" id="title" name="title"><br>
-						<label>내용 : </label> <textarea class="form-control" rows="5" id="content" name="content"></textarea><br>
+		<hr><br><br>
+  				
+				<form id = "write" class="form-inline" method="post" action="write_ok.jsp" onsubmit="return chk_word()">
+				<div class="form-group">
+						제목 :&nbsp;&nbsp;<input size="70" type="text" class="form-control" placeholder="제목" id="title" name="title"><br><br>
+						내용 :&nbsp;&nbsp;<textarea class="form-control" rows="15" cols="100" id="content" name="content"></textarea><br><br>
 						<input type="hidden" name="writer" id="writer" value="<%= userid %>">
-						<input type="hidden" name="pk1" id="pk1" value="<%= pk[0] %>">
-						<input type="hidden" name="pk2" id="pk2" value="<%= pk[1] %>">
-						<input type="hidden" name="pk3" id="pk3" value="<%= pk[2] %>">
+						<input type="hidden" name="pk1" id="pk1" value="<%= word[0] %>">
+						<input type="hidden" name="pk2" id="pk2" value="<%= word[1] %>">
+						<input type="hidden" name="pk3" id="pk3" value="<%= word[2] %>">
 						<input type="submit" class="form-control" value="작성완료">
 					</div>
-				</form>
-			</div>
-			
+				</form>			
+				<br><br><br>
 	    	<%conn.close();
 	        }catch(Exception e){
 	            out.println("데이터베이스에 문제가 있습니다.");

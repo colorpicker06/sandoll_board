@@ -17,7 +17,17 @@
 
 body{
 font-family: 'Nanum Gothic', sans-serif;
-padding-bottom: 40%;
+padding-bottom: 10%;
+}
+
+div.form-group{
+		margin-left:auto;
+		margin-right:auto;
+		}
+		
+input{
+margin-left:auto;
+margin-right:auto;
 }
 
 </style>
@@ -36,20 +46,20 @@ function pass_chk(password,password2){
 </script>
 
 <center>
-<form method="post" action="signin_ok.jsp" onsubmit="return pass_chk(this)" >
-<div class="col-xs-2" style="margin-left:40%">
-<i class="far fa-user-circle fa-5x"></i>
+<br><br><br>
+<form class="form-inline" method="post" action="signin_ok.jsp" onsubmit="return pass_chk(this)" >
+<div class="form-group">
+<i class="far fa-user-circle fa-5x" style="margin-left:0;"></i>
 <h3>회원가입</h3>
-<input class="form-control input-sm" type="text" name="id" id = "id" placeholder="아이디 입력" required><br>
+아이디:&nbsp;<input class="form-control input-sm" type="text" name="id" id = "id" placeholder="아이디 입력" required>
 <input type="button" class="form-control" name="id_chk" id="id_chk" onclick="id_chk()" value="중복체크"><br><br>
-<input class="form-control" type="password" name="password" id = "password" placeholder="비밀번호 입력" required><br><br>
-<input class="form-control" type="password" name="password2" id = "password2" placeholder="비밀번호 확인" required><br><br>
-<input class="form-control" type="text" name="name" id = "name" placeholder="이름 입력" required><br><br>
-<input class="form-control" type="text" name="nickname" id = "nickname" placeholder="닉네임 입력" required><br>
+비밀번호 입력:&nbsp;&nbsp;<input class="form-control" type="password" name="password" id = "password" placeholder="비밀번호 입력" required><br><br>
+비밀번호 확인:&nbsp;&nbsp;<input class="form-control" type="password" name="password2" id = "password2" placeholder="비밀번호 확인" required><br><br>
+이름 입력:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" name="name" id = "name" placeholder="이름 입력" required><br><br>
+닉네임 입력:&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" name="nickname" id = "nickname" placeholder="닉네임 입력" required><br><br>
 <input type="submit" class="form-control" value="회원가입">
 </div>
 </form>
-<br><br><br><br>
 </center>
 </body>
 </html>

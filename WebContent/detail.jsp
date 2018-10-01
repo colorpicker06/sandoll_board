@@ -22,6 +22,7 @@
 	href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
 	integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
 	crossorigin="anonymous">
+	<link rel="stylesheet" href="css/bootstrap.css">
 	<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
 <title>글 상세보기</title>
 <style>
@@ -31,6 +32,7 @@ font-family: 'Nanum Gothic', sans-serif;
 </style>
 </head>
 <body>
+
 	<script>
 		function board_change(){
 			location.href = "board_change.jsp";
@@ -57,7 +59,7 @@ font-family: 'Nanum Gothic', sans-serif;
 	
 	<style>
 		table {
-			width: 100%;
+			width: 80%;
 			border-top: 1px solid #444444;
 			border-collapse: collapse;
 		}
@@ -66,11 +68,17 @@ font-family: 'Nanum Gothic', sans-serif;
 			border-bottom: 1px solid #444444;
 			padding: 10px;
 		}
+		
+		div.form-group{
+		margin-left:auto;
+		margin-right:auto;
+		}
 	</style>
 
 
 	<%@ include file="../menu.jsp"%>
-	<h2>글 상세보기</h2>
+	<center>
+<br><br>
 	<br>
 	<%
 
@@ -91,19 +99,22 @@ font-family: 'Nanum Gothic', sans-serif;
 	
 		//글쓴이가 자신의 게시물을 볼 때 (수정 및 삭제 가능)
 		if(session.getAttribute("id").equals(list.get(i).getWriter())){%>
-			<form method="post" action="board_change.jsp" name="form1" id="form1">
-				<input type="hidden" name="pk" id="pk" value="<%=list.get(i).getPk()%>"></input><br>
-				<h3>글 제목</h3>
-				<input type="text" name="title" id="title" value="<%=list.get(i).getTitle()%>"></input><br>
-				<h3>글 내용</h3>
-				<textarea name="content" id="content"><%=list.get(i).getContent()%></textarea>
-				<br>
-				<h3>글쓴이</h3><%= list.get(i).getWriter() %><br>
-				<h3>작성일</h3><%= list.get(i).getReg_date() %><br>
-				<h3>좋아요 수</h3><%= list.get(i).getBoard_like() %><br>
-				<input type="submit" value="수정"> <input type="button" value="삭제" onclick="board_delete(<%=list.get(i).getPk()%>);">
-				<input type="button" value="글 목록으로 돌아가기" onclick="board_list();">
+				
+			<form method="post" class="form-inline" action="board_change.jsp" name="form1" id="form1">
+			<div class="form-group">
+			<div class="col-xs-5">
+				<input class="form-control"   type="hidden" name="pk" id="pk" value="<%=list.get(i).getPk()%>"></input><br><br>
+				<input class="form-control" size="50" style="font-size:30px" type="text" name="title" id="title" value="<%=list.get(i).getTitle()%>"></input><br><br>
+				<hr>
+				<%= list.get(i).getWriter() %> / <%= list.get(i).getReg_date() %><br><br>
+				<textarea class="form-control" rows="15" cols="100" name="content" id="content"><%=list.get(i).getContent()%></textarea>
+				<br><br>
+				<input class="form-control" type="submit" value="수정"> <input class="form-control" type="button" value="삭제" onclick="board_delete(<%=list.get(i).getPk()%>);">
+				<input class="form-control" type="button" value="글 목록으로 돌아가기" onclick="board_list();">
+				</div>
+			</div>
 			</form>
+			
 
 		<%} //end of if
 		
@@ -111,9 +122,10 @@ font-family: 'Nanum Gothic', sans-serif;
 		else{
 			
 	%>
-			<h1>제목</h1><%= list.get(i).getTitle() %>
-			<h1>글쓴이</h1><%= list.get(i).getWriter()%>
-			<h1>작성일</h1><%= list.get(i).getReg_date()%><br><br>
+			<h1><%= list.get(i).getTitle() %></h1>
+			<hr size="30">
+			<h5><%= list.get(i).getWriter()%> / <%= list.get(i).getReg_date()%></h5><br><br>
+			<h3><%=list.get(i).getContent()%></h3>
 
 	<%
 		} //end of else
@@ -129,33 +141,34 @@ font-family: 'Nanum Gothic', sans-serif;
 	
 	//좋아요 눌렀을 때
 	 if(board_like == 1){ %>
-		 <i class="fas fa-heart"></i>
+		 <br><br><i style="margin-left:0;" class="fas fa-heart fa-4x"></i>
 	 <%
 	 }//end of if
 	 
 	 //좋아요 안 눌렀을 때
 	 else if(board_like == -1){ %>
-		 <i class="far fa-heart" id="like" onclick="like('<%=board_pk%>','<%=session.getAttribute("id")%>','<%= heart_count %>');"></i>
+		 <br><br><i style="margin-left:0;" class="far fa-heart fa-4x" id="like" onclick="like('<%=board_pk%>','<%=session.getAttribute("id")%>','<%= heart_count %>');"></i>
 	<% }
 	
 	 %>
 
-	<h1>좋아요</h1><%= heart_count %>
+	<h1>Like <%= heart_count %></h1>
 
 <!--  댓글  -->
 	<br>
-	<br> 댓글 목록
-	<br>
-	<br>
-	<br>
-	<br>
-	<form action="reply_ok.jsp" method="post">
+	
+	<form action="reply_ok.jsp" method="post" class="form-inline" ><br><br><br><br>
+	<div class="form-group">
+  	<div class="col-xs-3">
 		<%= session.getAttribute("id") %>&nbsp; &nbsp; 
-		<input type="text" size="100%" name="replytext" id="replytext"> 
-		<input type="hidden" name="board_pk" id="board_pk" value="<%=pk%>">
-		<input type="hidden" name="user_reply_pk" id="user_reply_pk" value="<%= session.getAttribute("id") %>">
-		<input type="submit" value="댓글 작성">
+		<input class="form-control"type="text" size="100%" name="replytext" id="replytext"> 
+		<input class="form-control" type="hidden" name="board_pk" id="board_pk" value="<%=pk%>">
+		<input class="form-control" type="hidden" name="user_reply_pk" id="user_reply_pk" value="<%= session.getAttribute("id") %>">
+		<input class="form-control" type="submit" value="댓글 작성">
+	</div>
+	</div>
 	</form>
+	
 	<table>
 		<tr>
 			<td>댓글 번호</td>
@@ -178,16 +191,16 @@ font-family: 'Nanum Gothic', sans-serif;
 		
 		<tr>
 			<td><%= reply_list.get(i).getUser_reply_pk() %></td>
-			<form action='reply_change.jsp' method='post'>
+			<form action='reply_change.jsp' method='post' class="form-inline">
 				<td>
-					<input name="replytext" id="replytext" type='text' value="<%= reply_list.get(i).getReplytext() %>" />
+					<input name="replytext" class="form-control" id="replytext" type='text' value="<%= reply_list.get(i).getReplytext() %>" />
 				</td>
 				<td>
 					<%= reply_list.get(i).getUser_reply_pk() %>
 				</td>
 				<td>
-					<%=reply_list.get(i).getReg_date()%>
-					<input type='submit' value='수정하기' /><input type='button' value='삭제하기' onclick='reply_delete(<%=reply_list.get(i).getUser_reply_pk()%>);' />
+					<%=reply_list.get(i).getReg_date()%>&nbsp;&nbsp;
+					<input class="btn btn-primary" type='submit' value='수정하기' />&nbsp;&nbsp;<input class="btn btn-primary" type='button'value='삭제하기' onclick='reply_delete(<%=reply_list.get(i).getUser_reply_pk()%>);' />
 				</td>
 				
 				<input type="hidden" name="pk" id="pk" value="<%= reply_list.get(i).getUser_reply_pk() %>"> 
@@ -207,5 +220,7 @@ font-family: 'Nanum Gothic', sans-serif;
 	}
 	%>
 	</table>
+	<br><br><br><br>
+	</center>
 </body>
 </html>

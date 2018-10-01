@@ -46,6 +46,7 @@ h2,h1{
     }
 </script>
 <%@ include file="../menu.jsp" %>
+<br><br><br>
 <h1>마이페이지 </h1>
 <div id = "main">
 <% 

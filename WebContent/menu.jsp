@@ -11,11 +11,12 @@
 <title>Insert title here</title>
 <style>
 *{
+
 	margin:0;
 	padding:0;
 }
 img{
-	margin-top:2%;
+	padding-top:3%;
 	margin-bottom:0;
 	margin-left: auto;
 	margin-right: auto;
@@ -23,7 +24,9 @@ img{
 }
 
 .header{
-	background-color: #ff584f;
+	background-color: #06acff;
+	height:180px;
+	weight:100%;
 }
 
 body{
@@ -34,19 +37,55 @@ font-size: 15px;
 a{
 	font-size: 15px;
 }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 20px;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: white;
+}
+
+.topnav-right {
+  float: right;
+  background-color: white;
+}
+
+span.menu{
+float:left;
+margin:0.3%;
+}
+
 
 
 </style>
 </head>
 <body>
-<a href="index.jsp"><div class="header" width="100%" height="50px"><img src = "image/logo2.png" width="10%" height="30%"></div></a>
-		<span onclick="openNav()">
-        <div class="ham-btn">
-            <span class="item-1 ham-dash"></span>
-            <span class="item-2 ham-dash"></span>
-            <span class="item-3 ham-dash"></span>
-        </div>
-        </span>
+<a href="board_list.jsp"><div class="header"><img src = "image/sandoll_cloud.png" width="15%"/></div></a>
+		
+        
+
+<div class="topnav">
+	<span class="menu" style= "color:white; font-size:30px; cursor:pointer" onclick="openNav()">&nbsp; &nbsp;&#9776;&nbsp; &nbsp;</span>
+  <a href="write.jsp">글쓰기 </a>
+  <a href="board_list.jsp">글목록</a>
+</div>
+       
         
         <div id="mySidenav" class="sidenav">
 		  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -74,8 +113,8 @@ a{
 		  <%
 		  }
 		  %>
-		  <a href="write.jsp"><i class="fas fa-edit"></i>&nbsp;글쓰기 </a>
-		  <a href="board_list.jsp"><i class="fas fa-clipboard-list"></i>&nbsp;글목록</a>
+		  
+		  
 </div>
 
 <script>

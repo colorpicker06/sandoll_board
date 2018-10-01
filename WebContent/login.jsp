@@ -35,6 +35,11 @@ margin-left:auto;
 margin-right:auto;
 }
 
+div.form-group{
+		margin-left:auto;
+		margin-right:auto;
+		}
+
 </style>
 <body>
 <%@ include file="../menu.jsp" %>
@@ -52,14 +57,15 @@ margin-right:auto;
 		String userid = (String)session.getAttribute("id");
 		%>
 		<center>
-		<div class="login">
-			<i class="far fa-user-circle fa-5x"></i>
+		<br><br><br>
+			<i class="far fa-user-circle fa-5x" style="margin-left:0;"></i>
 			<h3>로그인</h3>
-			<form method="post" action="login_ok.jsp">
+			<form method="post" class="form-inline" action="login_ok.jsp">
+			<div class="form-group">
 				<div class="col-xs-10">
-				<input type="text" name="id" class="form-control"  id = "id" placeholder="아이디 입력"><br>
-				<input type="password" class="form-control"  name="password" id = "password" placeholder="비밀번호 입력"><br>
-				<input type="submit" class="form-control" value="로그인"><br>
+				<input type="text" size="30" name="id" class="form-control"  id = "id" placeholder="아이디 입력"><br><br>
+				<input type="password" size="30" class="form-control"  name="password" id = "password" placeholder="비밀번호 입력"><br><br>
+				<input type="submit" style="margin-left:20%;" class="form-control" value="로그인"><br>
 				</div>
 			</form><br><br>
 			</div>

@@ -6,29 +6,20 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/foundation/5.0.3/css/foundation.min.css'>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style2.css">
 <title>Insert title here</title>
 <style>
-body{
-font-family: 'Nanum Gothic', sans-serif;
+img.cloud{
+	animation-iteration-count:infinite;
 }
 </style>
 </head>
 <body>
-<%@ include file="../menu.jsp" %>
+<img src="image/sandoll2.png" width="8%" style="margin:1%;">
 
-<div id ="main">
- <ul class="orbit-ul" data-orbit data-options="pause_on_hover:false; timer_speed:2000;">
-  <li class="orbit-item orbit-item-1"><div></div></li>
-  <li class="orbit-item orbit-item-2"><div></div></li>
-  <li class="orbit-item orbit-item-3"><div></div></li>
-</ul>
+<a href="board_list.jsp"><div class="tabscontents ex">' <div class="arrow_top2"><img src="image/cloud2.png" width="500px" alt="" /></div></a>
+ <a href="board_list.jsp"><div class="arrow_top"><img src="image/cloud2.png" width="500px" alt="" /></div></a>
 
-
-<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/foundation/5.0.3/js/foundation.min.js'></script>  
-
-<script  src="js/index.js"></script>
-</div>
+</div>  
 </body>
 </html>
