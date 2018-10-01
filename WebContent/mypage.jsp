@@ -62,9 +62,7 @@ h2,h1{
 		String userid = (String)session.getAttribute("id");
 		
 		BoardDAO boardDAO = new BoardDAO();
-		ArrayList<Board> list = boardDAO.getMypage_board_list(userid);	
-		
-
+		ArrayList<Board> list = boardDAO.getMypage_board_list(userid);			
 	%>
 	<br><br>
 	<h2>내 글 목록</h2><br>
@@ -86,18 +84,13 @@ h2,h1{
 			out.print("<td onClick='goToDetail("+list.get(i).getPk()+")'>" + list.get(i).getContent() + "</td>");
 			out.print("<td onClick='goToDetail("+list.get(i).getPk()+")'>" + list.get(i).getReg_date() + "</td>");
 			out.print("<td onClick='goToDetail("+list.get(i).getPk()+")'>" + list.get(i).getBoard_like() + "</td>");
-			out.print("</tr>");
-			
+			out.print("</tr>");		
 	}
-	
 	%>
 	</table>
-	
 	<%
 	ReplyDAO replyDAO = new ReplyDAO();
 	ArrayList<Reply> list2 = replyDAO.getMypage_reply_list(userid);	
-	
-
 	%>
 	<br><br>
 	<h2>내 댓글 목록</h2><br>
@@ -107,11 +100,9 @@ h2,h1{
 	<td> 댓글 내용 </td>
 	<td> 작성일 </td>
 	</tr>
-	
 	<tr>
 	<%
 	for(int i=0; i<list2.size(); i++){
-	
 			out.print("<tr>");
 			out.print("<td>"+ list2.get(i).getPk() + "</td>");
 			out.print("<td>" + list2.get(i).getReplytext() + "</td>");

@@ -100,6 +100,8 @@ font-family: 'Nanum Gothic', sans-serif;
 <td> 좋아요 </td>
 </tr>
 <tr>
+
+
 <%
 
 		

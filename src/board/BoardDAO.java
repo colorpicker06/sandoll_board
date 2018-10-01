@@ -191,7 +191,7 @@ public class BoardDAO {
 			
 			//다음 페이지
 			public int targetPage(String pageNumber) {
-				String SQL = "SELECT count(pk) from board where pk >= ?";
+				String SQL = "SELECT count(pk) from board where board_delete = 0 and pk >= ?";
 				try {
 					pstmt = conn.prepareStatement(SQL);
 					pstmt.setInt(1, (Integer.parseInt(pageNumber)-1) * 10);
@@ -255,6 +255,5 @@ public class BoardDAO {
 				}
 				return list;
 			}
-			
 			
 }

@@ -214,7 +214,31 @@ public class UserDAO {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		
 		return false;
+	}
+	
+	//id chk
+	public boolean chk_id(String user_id) {
+		boolean result = false;
+		String SQL = "select id from user where id = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, user_id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = true; //중복된 아이디가 있다.
+			}
+			
+			else {
+				result = false; //중복된 아이디가 없다.
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result; //bd오류;
 	}
 
 }

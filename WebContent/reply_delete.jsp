@@ -13,8 +13,6 @@
 </head>
 <body>
 <%	
-
-	//out.print(request.getParameter("pk"));
 	ReplyDAO replyDAO = new ReplyDAO();
 	int result = replyDAO.reply_delete(reply);
 	if(result == -1){

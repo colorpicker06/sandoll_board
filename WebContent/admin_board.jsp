@@ -142,7 +142,7 @@ if(targetPage + Integer.parseInt(pageNumber)>startPage+9){ %>
 <%
 }
 %>
-</ul>
-</div>
+		</ul>
+	</div>
 </body>
 </html>

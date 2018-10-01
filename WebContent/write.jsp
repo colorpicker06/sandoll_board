@@ -22,8 +22,7 @@ function chk_word(){
 	var pk1 = myform['pk1'].value;
 	var pk2 = myform['pk2'].value;
 	var pk3 = myform['pk3'].value;
-	 
-	 //alert(content+"pk1"+pk1+"pk2"+pk2+"pk3"+pk3);
+
 	 
 	 if (content.indexOf(pk1) != -1 && content.indexOf(pk2)!= -1 && content.indexOf(pk3)!= -1) {
 		  return true;

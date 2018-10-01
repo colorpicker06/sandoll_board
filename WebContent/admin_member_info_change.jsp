@@ -38,11 +38,6 @@
 			script.println("location.href='admin_member.jsp'");
 			script.println("</script>");
 		}
-		
-		//out.print(request.getParameter("user_state"));
-		//out.print(request.getParameter("id"));
-		//out.print(request.getParameter("name"));
-		//out.print(request.getParameter("pk"));
 %>
 </head>
 <body>

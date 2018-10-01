@@ -53,8 +53,8 @@ div.col-xs-5{
 	가입일 : <input type="text" value="<%=list.get(i).getReg_date() %>" class="form-control" disabled></input><br>
 	<% } %>
 	<input type="submit" class="form-control" value="수정하기">
-	</form>
-	</div>
-</div>
+				</form>
+			</div>
+		</div>
 </body>
 </html>

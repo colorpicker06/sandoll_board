@@ -171,7 +171,6 @@ font-family: 'Nanum Gothic', sans-serif;
 	
 	<table>
 		<tr>
-			<td>댓글 번호</td>
 			<td>댓글</td>
 			<td>글쓴이</td>
 			<td>날짜</td>
@@ -184,13 +183,13 @@ font-family: 'Nanum Gothic', sans-serif;
 	for(int i=0; i<reply_list.size(); i++){ 
 		
 		int board_reply_delete = reply_list.get(i).getBoard_reply_delete();
+		int reply_pk = reply_list.get(i).getPk();
 		
 		if(board_reply_delete!=1){
 			
 			if(reply_list.get(i).getUser_reply_pk().equals(session.getAttribute("id"))){%>
 		
 		<tr>
-			<td><%= reply_list.get(i).getUser_reply_pk() %></td>
 			<form action='reply_change.jsp' method='post' class="form-inline">
 				<td>
 					<input name="replytext" class="form-control" id="replytext" type='text' value="<%= reply_list.get(i).getReplytext() %>" />
@@ -200,7 +199,8 @@ font-family: 'Nanum Gothic', sans-serif;
 				</td>
 				<td>
 					<%=reply_list.get(i).getReg_date()%>&nbsp;&nbsp;
-					<input class="btn btn-primary" type='submit' value='수정하기' />&nbsp;&nbsp;<input class="btn btn-primary" type='button'value='삭제하기' onclick='reply_delete(<%=reply_list.get(i).getUser_reply_pk()%>);' />
+					<input name="pk" id="pk" value="<%=reply_list.get(i).getPk()%>" type="hidden">
+					<input class="btn btn-primary" type='submit' value='수정하기' />&nbsp;&nbsp;<input class="btn btn-primary" type='button'value='삭제하기' onclick='reply_delete(<%=reply_list.get(i).getPk()%>);' />
 				</td>
 				
 				<input type="hidden" name="pk" id="pk" value="<%= reply_list.get(i).getUser_reply_pk() %>"> 
@@ -210,7 +210,6 @@ font-family: 'Nanum Gothic', sans-serif;
 		<%	}	
 			else{
 				out.print("<tr>");
-				out.print("<td>"+ reply_list.get(i).getUser_reply_pk() + "</td>");
 				out.print("<td>" + reply_list.get(i).getReplytext() + "</td>");
 				out.print("<td>" + reply_list.get(i).getUser_reply_pk() + "</td>");
 				out.print("<td>" + reply_list.get(i).getReg_date() + "</td>");

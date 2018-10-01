@@ -37,7 +37,6 @@
 		script.println("history.back()");
 		script.println("</script>");
 	}
-	//out.print(request.getParameter("pk"));
 %>
 </body>
 </html>
