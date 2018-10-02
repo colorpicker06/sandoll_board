@@ -205,6 +205,66 @@ public class BoardDAO {
 				return 0;
 			}
 			
+			//글 목록 불러오기
+			public ArrayList<Board> admin_getList(String pageNumber){
+				String SQL = "select * from board where pk > (select max(pk) from board) -? and pk <= (select max(pk) from board) - ? order by pk desc";
+				ArrayList<Board> boardList = null;
+				try {
+					pstmt = conn.prepareStatement(SQL);
+					pstmt.setInt(1,Integer.parseInt(pageNumber)*10);
+					pstmt.setInt(2,(Integer.parseInt(pageNumber)-1)*10);
+					rs = pstmt.executeQuery();
+					boardList = new ArrayList<Board>();
+					while (rs.next()) {
+						Board board = new Board();
+						board.setPk(rs.getInt(1));
+						board.setTitle(rs.getString(2));
+						board.setContent(rs.getString(3));
+						board.setWriter(rs.getString(4));
+						board.setReg_date(rs.getString(5));
+						board.setBoard_like(rs.getInt(6));
+						board.setBoard_delete(rs.getInt(7));
+						boardList.add(board);
+					}
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				return boardList;		
+			}
+
+			
+			//다음 페이지
+			public boolean admin_nextPage(String pageNumber) {
+				String SQL = "SELECT * from board where pk >= ?";
+				try {
+					pstmt = conn.prepareStatement(SQL);
+					pstmt.setInt(1, Integer.parseInt(pageNumber) * 10);
+					rs = pstmt.executeQuery();
+					while(rs.next()) {
+						return true;
+					}
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				return false;
+			}
+			
+			//다음 페이지
+			public int admin_targetPage(String pageNumber) {
+				String SQL = "SELECT count(pk) from board where pk >= ?";
+				try {
+					pstmt = conn.prepareStatement(SQL);
+					pstmt.setInt(1, (Integer.parseInt(pageNumber)-1) * 10);
+					rs = pstmt.executeQuery();
+					while(rs.next()) {
+						return rs.getInt(1)/10;
+					}
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				return 0;
+			}
+			
 			//글 상세내용
 			public ArrayList<Board> getDetail(int pk){
 				String SQL = "select * from board where pk =?";

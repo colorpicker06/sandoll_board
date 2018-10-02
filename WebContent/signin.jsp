@@ -10,48 +10,35 @@
 <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
 </head>
 <script>
-var idck = 0;
-$(function() {
-    //idck 버튼을 클릭했을 때 
-    $("#id_chk()").click(function() {     
-        //userid 를 param.
-        var id =  $("#id").val(); 
-        
-        $.ajax({
-            async: true,
-            type : 'POST',
-            data : id,
-            url : "idcheck.do",
-            dataType : "json",
-            contentType: "application/json; charset=UTF-8",
-            success : function(data) {
-                if (data.cnt > 0) {
-                    
-                    alert("아이디가 존재합니다. 다른 아이디를 입력해주세요.");
-                    //아이디가 존제할 경우 빨깡으로 , 아니면 파랑으로 처리하는 디자인
-                    $("#divInputId").addClass("has-error")
-                    $("#divInputId").removeClass("has-success")
-                    $("#userid").focus();
-                    
-                
-                } else {
-                    alert("사용가능한 아이디입니다.");
-                    //아이디가 존제할 경우 빨깡으로 , 아니면 파랑으로 처리하는 디자인
-                    $("#divInputId").addClass("has-success")
-                    $("#divInputId").removeClass("has-error")
-                    $("#userpwd").focus();
-                    //아이디가 중복하지 않으면  idck = 1 
-                    idck = 1;
-                    
-                }
-            },
-            error : function(error) {
-                
-                alert("error : " + error);
-            }
-        });
-    });
-});
+	function id_chk(){
+		var userID = $('#id').val();
+		$.ajax({
+			typd:'POST',
+			url:'./UserRegisterCheckServlet',
+			data:{userId:userID},
+			success:function(result){
+				if(result==1){
+					alert("사용할 수 있는 아이디 입니다.");
+				}
+				else{
+					alert("중복된 아이디 입니다.");
+				}
+			}
+		});
+	}
+	
+	function pass_chk(){
+		
+		var myform = document.forms['form'];
+		
+		var pass1 = myform['password'].value;
+		var pass2 = myform['password2'].value;
+
+		if(pass1!=pass2){
+			alert("패스워드가 다릅니다.");
+			return false;
+		}
+	}
 </script>
 
 <style>
@@ -79,29 +66,18 @@ margin-right:auto;
 
 <body>
 <%@ include file="../menu.jsp" %>
-<script>
-
-function pass_chk(password,password2){
-	if(password!=password2){
-		alert("비밀번호가 다릅니다.");
-		location.href='signin.jsp'
-	}
-}
-
-</script>
 
 <center>
 <br><br><br>
-<form class="form-inline" method="post" action="signin_ok.jsp" onsubmit="return pass_chk(this)" >
+<form id = "form" class="form-inline" method="post" action="signin_ok.jsp" onsubmit="return pass_chk()" >
 <div class="form-group">
 <i class="far fa-user-circle fa-5x" style="margin-left:0;"></i>
 <h3>회원가입</h3>
-아이디:&nbsp;<input class="form-control input-sm" type="text" name="id" id = "id" placeholder="아이디 입력" required>
-<input type="button" class="form-control" name="id_chk" id="id_chk" onclick="id_chk()" value="중복체크"><br><br>
-비밀번호 입력:&nbsp;&nbsp;<input class="form-control" type="password" name="password" id = "password" placeholder="비밀번호 입력" required><br><br>
-비밀번호 확인:&nbsp;&nbsp;<input class="form-control" type="password" name="password2" id = "password2" placeholder="비밀번호 확인" required><br><br>
-이름 입력:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" name="name" id = "name" placeholder="이름 입력" required><br><br>
-닉네임 입력:&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" name="nickname" id = "nickname" placeholder="닉네임 입력" required><br><br>
+아이디:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" name="id" id = "id" placeholder="아이디 입력" required><br><br>
+비밀번호:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="password" name="password" id = "password" placeholder="비밀번호 입력" required><br><br>
+비밀번호 확인:&nbsp;<input class="form-control" type="password" name="password2" id = "password2" placeholder="비밀번호 확인" required><br><br>
+이름:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" name="name" id = "name" placeholder="이름 입력" required><br><br>
+닉네임:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" name="nickname" id = "nickname" placeholder="닉네임 입력" required><br><br>
 <input type="submit" class="form-control" value="회원가입">
 </div>
 </form>

@@ -35,7 +35,6 @@
 	else{
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
-		script.println("alert('좋아요 <3')");
 		script.println("history.back()");
 		script.println("</script>");
 	}

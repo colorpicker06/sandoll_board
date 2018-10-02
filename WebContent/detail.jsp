@@ -51,7 +51,6 @@ font-family: 'Nanum Gothic', sans-serif;
 		}
 		
 		function like(board_pk,user_pk,heart_count){
-			alert("누름");
 			document.getElementById("like").className = "fas fa-heart";
 			location.href="board_like.jsp?board_pk="+board_pk+"&user_pk="+user_pk+"&heart_count="+heart_count;
 		}

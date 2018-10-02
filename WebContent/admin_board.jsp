@@ -51,13 +51,13 @@ h1{
 		userID = (String) session.getAttribute("id");
 	}
 
-	/*if(!InetAddress.getLocalHost().getHostAddress().equals("192.168.1.79")){ //192.168.0.22 sandollguest 192.168.1.221
+	if(!InetAddress.getLocalHost().getHostAddress().equals("192.168.1.79")){ //192.168.0.22 sandollguest 192.168.1.221
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('관리자페이지에 접속 할 수 있는 ip가 아닙니다.')");
 		script.println("location.href=('index.jsp')");
 		script.println("</script>");
-	}*/
+	}
 	
 	String pageNumber = "1";
 	if(request.getParameter("pageNumber")!= null){
@@ -71,7 +71,7 @@ h1{
 	}
 	
 	BoardDAO boardDAO = new BoardDAO();
-	ArrayList<Board> boardList = new BoardDAO().getList(pageNumber);
+	ArrayList<Board> boardList = new BoardDAO().admin_getList(pageNumber);
 
 
 %>
@@ -113,7 +113,7 @@ for(int i=0; i<boardList.size(); i++){
 <%
 	int startPage = (Integer.parseInt(pageNumber)/10)*10 +1;
 	if(Integer.parseInt(pageNumber)%10==0) startPage -= 10;
-	int targetPage = new BoardDAO().targetPage(pageNumber);
+	int targetPage = new BoardDAO().admin_targetPage(pageNumber);
 	if(startPage!=1){
 %>
 <li><a href = "admin_board?pageNumber=<%= startPage-1 %>"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
