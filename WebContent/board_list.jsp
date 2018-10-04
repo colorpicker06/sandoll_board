@@ -59,6 +59,14 @@ font-family: 'Nanum Gothic', sans-serif;
   
 </style>
 <script type="text/javascript">
+<!-- 자동 새로고침 -->
+if(self.name != 'reload'){
+	self.name = 'reload';
+	self.location.reload(true);
+}
+else self.name='';
+
+
     function list(page){
         location.href="detail.jsp?curPage="+page; //페이지 이동
     }
@@ -121,10 +129,10 @@ font-family: 'Nanum Gothic', sans-serif;
 		
 		else{ %>
 		<tr>
-		<td> <a href = "detail.jsp?pk=<%=board.getPk()%>"> <%= board.getTitle() %></a></td>
-		<td> <a href = "detail.jsp?pk=<%=board.getPk()%>"> <%= board.getWriter()%> </a></td>
-		<td> <a href = "detail.jsp?pk=<%=board.getPk()%>"> <%= board.getReg_date()%> </a></td>
-		<td> <a href = "detail.jsp?pk=<%=board.getPk()%>"> <%= board.getBoard_like()%> </a></td>
+		<td> <a href = "detail.jsp?pk=<%=board.getPk()%>&page=<%=pageNumber %>"> <%= board.getTitle() %></a></td>
+		<td> <a href = "detail.jsp?pk=<%=board.getPk()%>&page=<%=pageNumber %>"> <%= board.getWriter()%> </a></td>
+		<td> <a href = "detail.jsp?pk=<%=board.getPk()%>&page=<%=pageNumber %>"> <%= board.getReg_date()%> </a></td>
+		<td> <a href = "detail.jsp?pk=<%=board.getPk()%>&page=<%=pageNumber %>"> <%= board.getBoard_like()%> </a></td>
 		</tr>
 		<%}
 		}

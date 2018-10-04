@@ -18,6 +18,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
 	integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
@@ -34,6 +35,14 @@ font-family: 'Nanum Gothic', sans-serif;
 <body>
 
 	<script>
+	
+	<!-- 자동 새로고침 -->
+	if(self.name != 'reload'){
+		self.name = 'reload';
+		self.location.reload(true);
+	}
+	else self.name='';
+	
 		function board_change(){
 			location.href = "board_change.jsp";
 		}
@@ -46,8 +55,8 @@ font-family: 'Nanum Gothic', sans-serif;
 			location.href = "reply_delete.jsp?pk="+pk;
 		}
 		
-		function board_list(){
-			location.href = "board_list.jsp";
+		function board_list(page){
+			location.href = "board_list.jsp?pageNumber="+page;
 		}
 		
 		function like(board_pk,user_pk,heart_count){
@@ -93,6 +102,8 @@ font-family: 'Nanum Gothic', sans-serif;
 	int pk = Integer.parseInt(request.getParameter("pk"));
 	BoardDAO boardDAO = new BoardDAO();
 	ArrayList<Board> list = boardDAO.getDetail(pk);
+	
+	int page2 = Integer.parseInt(request.getParameter("page"));
 		
 	for(int i=0; i<list.size(); i++){ 
 	
@@ -109,7 +120,7 @@ font-family: 'Nanum Gothic', sans-serif;
 				<textarea class="form-control" rows="15" cols="100" name="content" id="content"><%=list.get(i).getContent()%></textarea>
 				<br><br>
 				<input class="form-control" type="submit" value="수정"> <input class="form-control" type="button" value="삭제" onclick="board_delete(<%=list.get(i).getPk()%>);">
-				<input class="form-control" type="button" value="글 목록으로 돌아가기" onclick="board_list();">
+				<input class="form-control" type="button" value="글 목록으로 돌아가기" onclick="board_list('<%= page2 %>');">
 				</div>
 			</div>
 			</form>
@@ -125,6 +136,7 @@ font-family: 'Nanum Gothic', sans-serif;
 			<hr size="30">
 			<h5><%= list.get(i).getWriter()%> / <%= list.get(i).getReg_date()%></h5><br><br>
 			<h3><%=list.get(i).getContent()%></h3>
+			<br><br>
 
 	<%
 		} //end of else
@@ -151,7 +163,13 @@ font-family: 'Nanum Gothic', sans-serif;
 	
 	 %>
 
-	<h1>Like <%= heart_count %></h1>
+	<h1>Like <%= heart_count %></h1><br><br>
+	
+	<div class="form-group row">
+  	<div class="col-xs-2">
+		<input class="form-control" style="margin-left:400%;" type="button" value="글 목록으로 돌아가기" onclick="board_list('<%= page2 %>');">
+	</div>
+	</div>
 
 <!--  댓글  -->
 	<br>

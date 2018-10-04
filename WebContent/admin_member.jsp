@@ -97,6 +97,7 @@ for(int i=0; i<list.size(); i++){ %>
 }
 %>
 </table>
+<br><br><br>
 </div>
 </body>
 </html>

@@ -20,6 +20,7 @@
 	
 	int board_pk =Integer.parseInt(request.getParameter("board_pk"));
 	int heart_count =Integer.parseInt(request.getParameter("heart_count"))+1;
+	String url = (String)request.getParameter("url");
 	
 	int result2 = boardDAO.board_like_count(board_pk, heart_count);
 	

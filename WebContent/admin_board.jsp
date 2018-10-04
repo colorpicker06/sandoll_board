@@ -144,5 +144,6 @@ if(targetPage + Integer.parseInt(pageNumber)>startPage+9){ %>
 %>
 		</ul>
 	</div>
+	<br>
 </body>
 </html>

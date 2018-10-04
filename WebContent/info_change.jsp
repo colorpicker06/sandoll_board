@@ -35,6 +35,13 @@ div.col-xs-5{
 </head>
 <body>
 <%@ include file="../menu.jsp" %>
+<script>
+if(self.name != 'reload'){
+	self.name = 'reload';
+	self.location.reload(true);
+}
+else self.name='';
+</script>
 <div id="main">
 <%
 	String id = (String)session.getAttribute("id");
@@ -46,7 +53,7 @@ div.col-xs-5{
 	<form method="post" action="info_change_ok.jsp">
 	<% for(int i=0; i<list.size(); i++){ %>
 	<input type="hidden" name="pk" id = "pk" value="<%=list.get(i).getPk()%>"></input><br>
-	아이디 : <input type="text" class="form-control" name="id" id = "id" value="<%=list.get(i).getId()%>"></input><br>
+	아이디 : <input type="text" class="form-control" value="<%=list.get(i).getId()%>" disabled></input><br>
 	비밀번호 : <input type="text" class="form-control" name="password" id = "password" value="<%=list.get(i).getPassword()%>"></input><br>
 	이름 : <input type="text" class="form-control" name="name" id = "name" value="<%=list.get(i).getName()%>" disabled></input><br>
 	닉네임 : <input type="text" name="nickname" class="form-control" id = "nickname" value="<%=list.get(i).getNickname()%>"></input><br>

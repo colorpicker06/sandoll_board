@@ -5,26 +5,27 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="/css/signin.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
 </head>
 <script>
-	function id_chk(){
-		var userID = $('#id').val();
-		$.ajax({
-			typd:'POST',
-			url:'./UserRegisterCheckServlet',
-			data:{userId:userID},
-			success:function(result){
-				if(result==1){
-					alert("사용할 수 있는 아이디 입니다.");
-				}
-				else{
-					alert("중복된 아이디 입니다.");
-				}
-			}
-		});
+
+	function id_chkk(){
+		var myform = document.forms['form'];
+		
+		var id = myform['id'].value;
+		var isIdChk = myform['isIdchk'].value;
+		
+		if(!id){
+			alert("아이디를 입력하지 않았습니다.");
+			return false;
+		}
+		
+		else{
+			window.open("idchkForm.jsp?id="+id+"&isIdChk="+isIdChk,"a","width=700, height=300, left=100, top=50");
+		}
+		
+		return true;	
 	}
 	
 	function pass_chk(){
@@ -38,7 +39,15 @@
 			alert("패스워드가 다릅니다.");
 			return false;
 		}
+		
+		if(myform['isIdChk'].value != "idCheck"){
+			alert("아이디 중복체크를 해주세요");
+			return false;
+		}			
 	}
+	
+	
+	
 </script>
 
 <style>
@@ -70,10 +79,12 @@ margin-right:auto;
 <center>
 <br><br><br>
 <form id = "form" class="form-inline" method="post" action="signin_ok.jsp" onsubmit="return pass_chk()" >
+<input type = "hidden" name="isIdchk" id="isIdchk" value="idUncheck">
 <div class="form-group">
 <i class="far fa-user-circle fa-5x" style="margin-left:0;"></i>
 <h3>회원가입</h3>
-아이디:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" name="id" id = "id" placeholder="아이디 입력" required><br><br>
+아이디:&nbsp;<input class="form-control" type="text" name="id" id = "id" placeholder="아이디 입력" required>
+<input type="button" class="form-control" name="id_chk" id="id_chk" onclick="id_chkk()" value="중복체크"/><br><br>
 비밀번호:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="password" name="password" id = "password" placeholder="비밀번호 입력" required><br><br>
 비밀번호 확인:&nbsp;<input class="form-control" type="password" name="password2" id = "password2" placeholder="비밀번호 확인" required><br><br>
 이름:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" name="name" id = "name" placeholder="이름 입력" required><br><br>

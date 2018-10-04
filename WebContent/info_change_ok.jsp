@@ -34,7 +34,7 @@
 	else{
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
-		script.println("location.href='board_list.jsp'");
+		script.println("history.back()");
 		script.println("</script>");
 	}
 %>

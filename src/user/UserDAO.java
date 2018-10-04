@@ -101,31 +101,23 @@ public class UserDAO {
 		}
 	
 	//아이디 중복체크 
-	public int id_chk(String id) {
+	public boolean id_chk(String id) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select * from user where id = ?";
+		String sql = "select id from user";
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				return 0;
-			}
-			else {
-				return 1;
+			
+			while(rs.next()) {
+				if(rs.getString("id").equals(id)) {
+					return true;
+				}
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
-		}finally {
-			try {
-				if(rs != null) rs.close();
-				if(pstmt != null) pstmt.close();
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
 		}
-		return -1;
+		return false;
 	}
 	
 	//계정 상태 변경
