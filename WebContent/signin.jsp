@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
 </head>
-<script>
+<script type="text/javascript">
 
 	function id_chkk(){
 		var myform = document.forms['form'];
@@ -35,7 +35,7 @@
 		var pass1 = myform['password'].value;
 		var pass2 = myform['password2'].value;
 
-		if(pass1!=pass2){
+		if(!pass1.equals(pass2)){
 			alert("패스워드가 다릅니다.");
 			return false;
 		}

@@ -13,6 +13,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@ include file="../menu.jsp" %>
 <%
 	UserDAO userDAO = new UserDAO();
 	int result = userDAO.login(user.getId(),user.getPassword());

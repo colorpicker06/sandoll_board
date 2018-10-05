@@ -13,7 +13,7 @@
 <style>
 </style>
 <body>
-<script>
+<script >
 function form_close(){
 	window.close();
 }

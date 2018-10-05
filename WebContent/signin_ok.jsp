@@ -15,50 +15,50 @@
 <title>Insert title here</title>
 </head>
 <body>
+<center>
 <%
 	UserDAO userDAO = new UserDAO();
 	boolean idchk = userDAO.chk_id(request.getParameter("id"));
-	//아이디가 이미 있을 
-	if(idchk){
-		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('이미 사용중인 아이디 입니다.')");
-		script.println("location.href='invalid_id.jsp'");
-		script.println("</script>");
-	}
+	//사용중인 아이디 이면
+	if(idchk){%>
+		<img src="image/doll.png" width="10%"><br><br>
+		<h1>이미 사용중인 아이디 입니다.</h1><br><br>
+		<a href="signin.jsp">회원가입 하러 가기</a>
+		
+	<%}
 	
-	//아이디가 없을 때
 	else{
 		
+		//비밀번호 체크
 		String pass1 = request.getParameter("password");
 		String pass2 = request.getParameter("password2");
+		
 		//패스워드가 서로 다를
-		if(!pass1.equals(pass2)){
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('비밀번호가 다릅니다.')");
-			script.println("location.href='invalid_pass.jsp'");
-			script.println("</script>");
-		}
-		
-		
-		int result = userDAO.signin(user);
-		
-		if(result == -1){
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('실패')");
-			script.println("history.back()");
-			script.println("</script>");
-		}
+		if(!pass1.equals(pass2)){ %>
+			<img src="image/doll.png" width="10%"><br><br>
+			<h1>비밀번호가 일치하지 않습니다.</h1><br><br>
+			<a href="signin.jsp">회원가입 하러 가기</a>
+		<%}
 		
 		else{
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("location.href='login.jsp'");
-			script.println("</script>");
+			
+			//회원가입 진
+			int result = userDAO.signin(user);
+			
+			if(result == -1){
+				out.print("실패");
+			}
+			
+			else{ %>
+				<img src="image/doll.png" width="10%"><br><br>
+				<h1>회원가입에 성공했습니다.</h1><br><br>
+				<a href="ligin.jsp">로그인 하러 가기</a>
+			<% }
 		}
+
 	}
+	
 %>
+</center>
 </body>
 </html>
